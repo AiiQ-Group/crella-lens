@@ -1,0 +1,53 @@
+# Processing directories
+processing/
+logs/
+config/analyzer_config.json
+
+# Video files
+*.mp4
+*.webm
+*.mkv
+*.avi
+*.mov
+*.wav
+*.mp3
+
+# Image files from processing
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# JSON results (keep examples but ignore actual results)
+*_pait_scorecard.json
+*_crella_compatible.json
+!example_scorecard.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Virtual environment
+venv/
+env/
+.env
+
+# System files
+.directory
