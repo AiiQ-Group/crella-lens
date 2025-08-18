@@ -1,0 +1,58 @@
+{
+  "backtest_config": {
+    "name": "Frankenstein_pAIt_Strategies_20250818",
+    "description": "Automated strategies extracted from pAIt-scored YouTube analysis",
+    "created_at": "2025-08-18T08:23:38.389581",
+    "source": "crella_lens_frankenstein_system",
+    "strategies": [
+      {
+        "strategy_id": "pait_xyvqJdyUVIA_20250818",
+        "name": "pAIt Strategy: $322 in 1 Hour - Trading Bot Analysis...",
+        "pait_score": 100,
+        "risk_level": "medium",
+        "timeframe": "multi_timeframe",
+        "market_conditions": [
+          "general_market"
+        ],
+        "backtest_settings": {
+          "initial_capital": 10000,
+          "position_size_percent": 3,
+          "max_positions": 5,
+          "stop_loss_percent": 1.5,
+          "take_profit_percent": 4.0
+        },
+        "trading_rules": {
+          "entry_conditions": [
+            "RSI < 30 (oversold) for long entry",
+            "MACD line crosses above signal line",
+            "Active market conditions with volume confirmation"
+          ],
+          "exit_conditions": [
+            "RSI > 70 (overbought) for long exit",
+            "MACD line crosses below signal line",
+            "Profit target based on historical $322/hour pattern"
+          ],
+          "risk_management": [],
+          "technical_indicators": [
+            {
+              "indicator": "rsi",
+              "description": "RSI momentum indicator",
+              "integration": "signal_combination"
+            },
+            {
+              "indicator": "macd",
+              "description": "MACD trend indicator",
+              "integration": "signal_combination"
+            }
+          ]
+        },
+        "implementation_notes": [
+          "Extracted from high-scoring pAIt analysis (100/100)",
+          "Source: Trading Pros - $322 in 1 Hour - Trading Bot Analysis",
+          "Requires backtesting before live implementation",
+          "Consider combining with other high-scoring elements"
+        ]
+      }
+    ]
+  }
+}

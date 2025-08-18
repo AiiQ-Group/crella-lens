@@ -1,0 +1,439 @@
+import { useState, useRef, useEffect } from 'react'
+import { X, Send, Sparkles, Heart, Smile, Code, DollarSign, TrendingUp, Settings } from 'lucide-react'
+import { AnalysisResult } from '../types'
+
+interface Message {
+  id: string
+  type: 'user' | 'assistant'
+  content: string
+  timestamp: Date
+}
+
+interface AssistantConfig {
+  id: string
+  name: string
+  role: string
+  image: string
+  primaryColor: string
+  secondaryColor: string
+  accentColor: string
+  icon: React.ReactNode
+  greeting: string
+  placeholder: string
+  expertise: string[]
+}
+
+interface IntelligentAssistantProps {
+  isAuthenticated: boolean
+  userType: 'staff' | 'member' | null
+  analysisResult: AnalysisResult | null
+}
+
+const assistants: Record<string, AssistantConfig> = {
+  claire: {
+    id: 'claire',
+    name: 'Claire',
+    role: 'Trading Concierge',
+    image: '/crella_claire.jpg',
+    primaryColor: '#ec4899', // pink-500
+    secondaryColor: '#8b5cf6', // purple-500
+    accentColor: '#06b6d4', // cyan-500
+    icon: <TrendingUp className="w-4 h-4" />,
+    greeting: "Hi! I'm Claire, your personal trading concierge. I can help you understand options strategies, provide step-by-step tutorials for trading platforms, and guide you through market analysis. What would you like to explore?",
+    placeholder: "Ask Claire about trading strategies...",
+    expertise: ['Options Trading', 'Chart Analysis', 'Risk Management', 'Platform Tutorials']
+  },
+  
+  developer: {
+    id: 'developer',
+    name: 'Alex',
+    role: 'Code & Web Assistant',
+    image: '/crella_concierge.svg',
+    primaryColor: '#10b981', // emerald-500
+    secondaryColor: '#3b82f6', // blue-500
+    accentColor: '#8b5cf6', // purple-500
+    icon: <Code className="w-4 h-4" />,
+    greeting: "Hello! I'm Alex, your technical assistant. I can help with code debugging, website development, API integration, and technical troubleshooting. What technical challenge can I help you solve?",
+    placeholder: "Ask Alex about code or technical issues...",
+    expertise: ['JavaScript/TypeScript', 'React Development', 'API Integration', 'Debugging']
+  },
+  
+  lending: {
+    id: 'lending',
+    name: 'Morgan',
+    role: 'Lending Specialist',
+    image: '/Handler.svg',
+    primaryColor: '#f59e0b', // amber-500
+    secondaryColor: '#ef4444', // red-500
+    accentColor: '#10b981', // emerald-500
+    icon: <DollarSign className="w-4 w-4" />,
+    greeting: "Welcome! I'm Morgan, your private lending specialist. I'll guide you through our application process step-by-step, explain loan terms, and help you find the perfect financing solution. How can I assist you today?",
+    placeholder: "Ask Morgan about lending options...",
+    expertise: ['Loan Applications', 'Credit Analysis', 'Financial Planning', 'Documentation']
+  },
+  
+  admin: {
+    id: 'admin',
+    name: 'Jordan',
+    role: 'Admin Assistant',
+    image: '/crella_concierge.svg',
+    primaryColor: '#6366f1', // indigo-500
+    secondaryColor: '#8b5cf6', // purple-500
+    accentColor: '#10b981', // emerald-500
+    icon: <Settings className="w-4 h-4" />,
+    greeting: "Hi! I'm Jordan, your administrative assistant. I can help with system management, user support, platform configuration, and administrative tasks. What do you need help with?",
+    placeholder: "Ask Jordan about admin tasks...",
+    expertise: ['System Management', 'User Support', 'Configuration', 'Analytics']
+  }
+}
+
+export default function IntelligentAssistant({ isAuthenticated, userType, analysisResult }: IntelligentAssistantProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [inputValue, setInputValue] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
+  const [currentAssistant, setCurrentAssistant] = useState<AssistantConfig>(assistants.claire)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  // Intelligent assistant selection based on image analysis
+  useEffect(() => {
+    if (analysisResult) {
+      const tags = analysisResult.tags.map(tag => tag.toLowerCase())
+      
+      // Determine assistant based on analyzed content
+      if (tags.some(tag => ['financial', 'trading', 'pait', 'chart'].includes(tag))) {
+        setCurrentAssistant(assistants.claire)
+      } else if (tags.some(tag => ['technical', 'api', 'code', 'function', 'programming'].includes(tag))) {
+        setCurrentAssistant(userType === 'staff' ? assistants.developer : assistants.claire)
+      } else if (tags.some(tag => ['loan', 'credit', 'financial', 'application', 'document'].includes(tag))) {
+        setCurrentAssistant(assistants.lending)
+      } else if (userType === 'staff') {
+        setCurrentAssistant(assistants.admin)
+      } else {
+        setCurrentAssistant(assistants.claire) // Default to Claire
+      }
+    } else {
+      // Default selection based on user type
+      if (userType === 'staff') {
+        setCurrentAssistant(assistants.admin)
+      } else {
+        setCurrentAssistant(assistants.claire)
+      }
+    }
+  }, [analysisResult, userType])
+
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      // Reset messages when assistant changes or chat opens
+      const greeting: Message = {
+        id: 'greeting',
+        type: 'assistant',
+        content: currentAssistant.greeting,
+        timestamp: new Date()
+      }
+      setMessages([greeting])
+    }
+  }, [isOpen, currentAssistant])
+
+  const handleSendMessage = async () => {
+    if (!inputValue.trim()) return
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: inputValue.trim(),
+      timestamp: new Date()
+    }
+
+    setMessages(prev => [...prev, userMessage])
+    
+    // Log interaction to metadata
+    logInteractionToMetadata('ai_question', inputValue.trim(), currentAssistant.name)
+    
+    const questionContent = inputValue.trim()
+    setInputValue('')
+    setIsTyping(true)
+
+    // Simulate AI response delay
+    await new Promise(resolve => setTimeout(resolve, 1500))
+
+    const assistantResponse = generateContextualResponse(questionContent, currentAssistant, analysisResult, userType)
+    const assistantMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      type: 'assistant',
+      content: assistantResponse,
+      timestamp: new Date()
+    }
+
+    setMessages(prev => [...prev, assistantMessage])
+    
+    // Log assistant response to metadata
+    logInteractionToMetadata('ai_response', assistantResponse, currentAssistant.name)
+    
+    setIsTyping(false)
+  }
+
+  // Function to log interactions to image metadata
+  const logInteractionToMetadata = (type: string, content: string, assistant: string) => {
+    const interaction = {
+      id: Date.now().toString(),
+      type,
+      content,
+      assistant,
+      timestamp: new Date(),
+      imageId: analysisResult ? `img_${Date.now()}` : undefined,
+      userType: isAuthenticated ? (userType || 'member') : 'guest',
+      ipAddress: `192.168.1.${Math.floor(Math.random() * 254) + 1}` // Simplified IP
+    }
+    
+    // Save to localStorage for persistence
+    const existingLog = JSON.parse(localStorage.getItem('crella-ai-interactions') || '[]')
+    existingLog.unshift(interaction)
+    localStorage.setItem('crella-ai-interactions', JSON.stringify(existingLog.slice(0, 1000)))
+    
+    console.log('AI Interaction logged:', interaction)
+  }
+
+  if (!isAuthenticated) return null
+
+  const gradientStyle = {
+    background: `linear-gradient(135deg, ${currentAssistant.primaryColor} 0%, ${currentAssistant.secondaryColor} 50%, ${currentAssistant.accentColor} 100%)`
+  }
+
+  return (
+    <>
+      {/* Dynamic Assistant Button */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-6 right-6 w-20 h-20 text-white rounded-full shadow-2xl transition-all duration-500 flex items-center justify-center z-40 group animate-pulse hover:animate-none"
+          style={{
+            background: `linear-gradient(135deg, ${currentAssistant.primaryColor}, ${currentAssistant.secondaryColor})`,
+            boxShadow: `0 20px 40px ${currentAssistant.primaryColor}30`
+          }}
+        >
+          <div className="relative">
+            <img 
+              src={currentAssistant.image} 
+              alt={currentAssistant.name}
+              className="w-16 h-16 rounded-full object-cover border-4 border-white/20"
+            />
+            <div 
+              className="absolute -top-1 -right-1 w-6 h-6 border-3 border-white rounded-full flex items-center justify-center"
+              style={{ background: `linear-gradient(to right, ${currentAssistant.accentColor}, ${currentAssistant.secondaryColor})` }}
+            >
+              {currentAssistant.icon}
+            </div>
+          </div>
+          <div 
+            className="absolute -top-16 right-0 text-white text-sm px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg"
+            style={{ background: `linear-gradient(to right, ${currentAssistant.primaryColor}, ${currentAssistant.secondaryColor})` }}
+          >
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-4 h-4" />
+              <span>Chat with {currentAssistant.name}</span>
+              <Smile className="w-4 h-4" />
+            </div>
+          </div>
+        </button>
+      )}
+
+      {/* Dynamic Chat Window */}
+      {isOpen && (
+        <div className="fixed bottom-6 right-6 w-[28rem] h-[36rem] bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl rounded-2xl shadow-2xl border z-50 flex flex-col overflow-hidden">
+          {/* Dynamic Header */}
+          <div 
+            className="flex items-center justify-between p-6 text-white relative overflow-hidden"
+            style={gradientStyle}
+          >
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-2 left-4 w-8 h-8 border-2 border-white/30 rounded-full"></div>
+              <div className="absolute top-8 right-8 w-4 h-4 bg-white/20 rounded-full"></div>
+              <div className="absolute bottom-4 left-8 w-6 h-6 bg-white/15 rounded-full"></div>
+            </div>
+            
+            <div className="flex items-center space-x-4 relative z-10">
+              <div className="relative">
+                <img 
+                  src={currentAssistant.image}
+                  alt={currentAssistant.name}
+                  className="w-14 h-14 rounded-full object-cover border-4 border-white/30 shadow-lg"
+                />
+                <div 
+                  className="absolute -bottom-1 -right-1 w-6 h-6 border-3 border-white rounded-full flex items-center justify-center"
+                  style={{ background: `linear-gradient(to right, ${currentAssistant.accentColor}, ${currentAssistant.secondaryColor})` }}
+                >
+                  {currentAssistant.icon}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white drop-shadow-lg">{currentAssistant.name}</h3>
+                <div className="flex items-center space-x-2 text-white/90">
+                  <Sparkles className="h-4 w-4 animate-pulse" />
+                  <span className="text-sm font-medium">{currentAssistant.role}</span>
+                </div>
+                <p className="text-xs text-white/75 mt-1">Specialized AI Assistant</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 hover:bg-white/20 rounded-full transition-all duration-200 relative z-10"
+            >
+              <X className="h-5 w-5 text-white drop-shadow" />
+            </button>
+          </div>
+
+          {/* Expertise Pills */}
+          <div className="px-4 py-3 bg-gray-50/80 dark:bg-gray-800/80 border-b border-gray-200/50 dark:border-gray-700/50">
+            <div className="flex flex-wrap gap-2">
+              {currentAssistant.expertise.map((skill, index) => (
+                <span 
+                  key={index}
+                  className="px-3 py-1 text-xs font-medium rounded-full text-white shadow-sm"
+                  style={{ backgroundColor: currentAssistant.primaryColor }}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Messages Area */}
+          <div className="flex-1 p-4 overflow-y-auto bg-gradient-to-br from-gray-50/30 via-white/30 to-gray-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`mb-4 ${message.type === 'user' ? 'flex justify-end' : 'flex justify-start'}`}
+              >
+                <div className={`max-w-[85%] ${message.type === 'user' ? '' : 'flex items-start space-x-3'}`}>
+                  {message.type === 'assistant' && (
+                    <img 
+                      src={currentAssistant.image}
+                      alt={currentAssistant.name}
+                      className="w-8 h-8 rounded-full object-cover border-2 shadow-sm flex-shrink-0 mt-1"
+                      style={{ borderColor: currentAssistant.primaryColor }}
+                    />
+                  )}
+                  <div
+                    className={`px-4 py-3 rounded-2xl shadow-sm ${
+                      message.type === 'user'
+                        ? 'text-white'
+                        : 'bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 border border-gray-100/50 dark:border-gray-700/50'
+                    }`}
+                    style={message.type === 'user' ? { background: `linear-gradient(to right, ${currentAssistant.primaryColor}, ${currentAssistant.secondaryColor})` } : {}}
+                  >
+                    <p className="text-sm leading-relaxed">{message.content}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="flex items-start space-x-3">
+                  <img 
+                    src={currentAssistant.image}
+                    alt={currentAssistant.name}
+                    className="w-8 h-8 rounded-full object-cover border-2 shadow-sm flex-shrink-0"
+                    style={{ borderColor: currentAssistant.primaryColor }}
+                  />
+                  <div className="bg-white/90 dark:bg-gray-800/90 px-4 py-3 rounded-2xl">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: currentAssistant.primaryColor }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: currentAssistant.secondaryColor, animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: currentAssistant.accentColor, animationDelay: '0.2s' }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input Area */}
+          <div className="p-4 bg-white/95 dark:bg-gray-800/95">
+            <div className="flex items-center space-x-3">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                placeholder={currentAssistant.placeholder}
+                className="flex-1 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-600 rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:border-transparent placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
+                style={{ '--tw-ring-color': currentAssistant.primaryColor } as any}
+                disabled={isTyping}
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={!inputValue.trim() || isTyping}
+                className="p-3 rounded-full text-white transition-all duration-200 shadow-lg disabled:opacity-50"
+                style={{ 
+                  background: inputValue.trim() && !isTyping 
+                    ? `linear-gradient(to right, ${currentAssistant.primaryColor}, ${currentAssistant.secondaryColor})` 
+                    : '#9CA3AF'
+                }}
+              >
+                <Send className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+// Contextual response generation
+function generateContextualResponse(input: string, assistant: AssistantConfig, analysis: AnalysisResult | null, userType: 'staff' | 'member' | null): string {
+  const inputLower = input.toLowerCase()
+  
+  // Assistant-specific responses
+  switch (assistant.id) {
+    case 'claire':
+      if (inputLower.includes('tutorial') || inputLower.includes('how to')) {
+        return "I'd be happy to walk you through a step-by-step tutorial! For trading platforms like TradingView: 1) Open your chart, 2) Select the options chain, 3) Choose your strike prices, 4) Set your expiration date, 5) Review risk/reward. Would you like me to elaborate on any specific step?"
+      }
+      if (inputLower.includes('condor') || inputLower.includes('strategy')) {
+        return "The Long Call Condor is perfect for neutral markets. Here's the setup: Buy 1 ITM call, Sell 1 ATM call, Sell 1 OTM call, Buy 1 further OTM call. Max profit occurs between the short strikes. Current TSLA setup: 320/330/340/350 strikes. Need help with entry timing?"
+      }
+      break
+      
+    case 'developer':
+      if (inputLower.includes('debug') || inputLower.includes('error')) {
+        return "I can help debug that! First, let's check the console for error messages. Common issues: 1) Missing imports, 2) Incorrect API endpoints, 3) State management problems. Can you share the specific error message you're seeing?"
+      }
+      if (inputLower.includes('api') || inputLower.includes('integration')) {
+        return "For API integration, I recommend: 1) Set up proper error handling, 2) Use TypeScript interfaces, 3) Implement retry logic, 4) Add proper authentication. Are you working with REST APIs or GraphQL?"
+      }
+      break
+      
+    case 'lending':
+      if (inputLower.includes('application') || inputLower.includes('loan')) {
+        return "I'll guide you through our application process step-by-step: 1) Personal Information, 2) Financial Documentation, 3) Credit Assessment, 4) Collateral Evaluation, 5) Terms Agreement. What type of lending are you interested in? Private business loans, real estate, or personal credit lines?"
+      }
+      if (inputLower.includes('credit') || inputLower.includes('score')) {
+        return "Credit requirements vary by loan type. For private lending: Minimum 650 FICO for most products, 700+ for premium rates. We also consider: debt-to-income ratio, collateral value, and business cash flow. Would you like a pre-qualification assessment?"
+      }
+      break
+      
+    case 'admin':
+      if (inputLower.includes('user') || inputLower.includes('manage')) {
+        return "For user management, I can help with: 1) Creating new accounts, 2) Setting permissions, 3) Monitoring activity, 4) Generating reports. Current system shows high activity on trading modules. Need help with specific admin tasks?"
+      }
+      break
+  }
+  
+  // Generic helpful responses
+  const responses = [
+    `As your ${assistant.role}, I'm here to provide specialized guidance. What specific challenge can I help you solve?`,
+    `I have extensive training in ${assistant.expertise.join(', ')}. How can I apply this expertise to help you today?`,
+    `Based on your current context, I can offer detailed assistance. What would you like to explore further?`
+  ]
+  
+  return responses[Math.floor(Math.random() * responses.length)]
+}

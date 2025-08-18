@@ -1,0 +1,29 @@
+{
+  "video_id": "xyvqJdyUVIA",
+  "url": "https://youtube.com/shorts/xyvqJdyUVIA",
+  "analysis_date": "2025-08-18T05:50:07.161558",
+  "status": "completed",
+  "steps": {
+    "yt_dlp_check": {
+      "status": "passed"
+    },
+    "download": {
+      "status": "passed",
+      "video_path": "lens-data\\downloads\\xyvqJdyUVIA.mp4",
+      "metadata": {
+        "video_id": "xyvqJdyUVIA",
+        "url": "https://youtube.com/shorts/xyvqJdyUVIA",
+        "download_time": "2025-08-18T05:50:07.481058",
+        "title": "Pocket Option AI Trading Bot: FREE Automated Binary Options Strategy (100% Profit Tested)",
+        "duration": 21,
+        "uploader": "SLAYER TRADING",
+        "view_count": 15432,
+        "upload_date": "20250617",
+        "description": "🔥 GET THE POCKET OPTION AI BOT FREE HERE: [LINK IN BIO] 👇\n💥 EXCLUSIVE BONUS: 60% EXTRA on deposits $50+ → USE CODE: EKY501\n\nDiscover how the revolutionary Pocket Option AI Trading Bot automates binary options trading with precision! In this deep dive, we reveal the bot’s algorithm, test its live performance, and show you how to harness AI for consistent profits. Perfect for beginners and experts alike!\n\n⏱️ TIMECODES:\n00:00 - Pocket Option AI Bot DEMO (Live Profit Test)\n01:30 - How the AI Algorit...",
+        "file_size": 1583520,
+        "file_name": "xyvqJdyUVIA.mp4"
+      }
+    }
+  },
+  "processing_time": "0:00:04.333567"
+}

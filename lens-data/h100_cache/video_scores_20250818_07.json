@@ -1,0 +1,17 @@
+{
+  "scores": [
+    {
+      "video_id": "xyvqJdyUVIA",
+      "title": "$322 in 1 Hour - Trading Bot Analysis",
+      "channel": "Test Channel",
+      "video_url": "https://youtube.com/shorts/xyvqJdyUVIA",
+      "processed_at": "2025-08-18T12:00:30.124011",
+      "duration": 352,
+      "views": 141000,
+      "pait_score": 75,
+      "risk_assessment": "medium",
+      "model_used": "claudia-trader"
+    }
+  ],
+  "source": "latest_collection"
+}

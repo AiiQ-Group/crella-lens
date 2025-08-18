@@ -1,0 +1,50 @@
+{
+  "generated_at": "2025-08-18T07:24:38.051855",
+  "data_source": "H100 GPU Server (143.198.44.252)",
+  "total_videos_analyzed": 1,
+  "categories": {
+    "latestAnalyzed": [
+      {
+        "rank": 1,
+        "name": "$322 in 1 Hour - Trading Bot Analysis",
+        "source": "Test Channel",
+        "monthlyReturn": 8.9,
+        "aiScore": 75,
+        "riskRating": "Medium",
+        "lastUpdated": "2025-08-18",
+        "category": "socialMediaLow",
+        "video_url": "https://youtube.com/shorts/xyvqJdyUVIA",
+        "processing_time": "",
+        "h100_processed": true,
+        "recommendation": {}
+      }
+    ],
+    "topPerformers": [],
+    "moderateRisk": [
+      {
+        "rank": 1,
+        "name": "$322 in 1 Hour - Trading Bot Analysis",
+        "source": "Test Channel",
+        "monthlyReturn": 8.9,
+        "aiScore": 75,
+        "riskRating": "Medium",
+        "lastUpdated": "2025-08-18",
+        "category": "socialMediaLow",
+        "video_url": "https://youtube.com/shorts/xyvqJdyUVIA",
+        "processing_time": "",
+        "h100_processed": true,
+        "recommendation": {}
+      }
+    ],
+    "highRisk": []
+  },
+  "summary_stats": {
+    "average_pait_score": 75.0,
+    "high_quality_count": 0,
+    "processing_summary": {
+      "latest_update": "2025-08-18T12:00:30.124011",
+      "h100_status": "online",
+      "models_used": "claudia-trader:latest, jbot:latest"
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "extracted_at": "2025-08-18T08:19:22.471252",
+  "h100_server": "143.198.44.252",
+  "total_elements": 1,
+  "high_scoring_elements": [
+    {
+      "video_id": "xyvqJdyUVIA",
+      "title": "$322 in 1 Hour - Trading Bot Analysis",
+      "channel": "Trading Pros",
+      "pait_score": 100,
+      "trading_elements": [
+        {
+          "type": "technical_indicator",
+          "name": "rsi",
+          "description": "RSI momentum indicator",
+          "integration_method": "signal_combination"
+        },
+        {
+          "type": "technical_indicator",
+          "name": "macd",
+          "description": "MACD trend indicator",
+          "integration_method": "signal_combination"
+        },
+        {
+          "type": "strategy_pattern",
+          "name": "active_trading",
+          "description": "Active trading strategy",
+          "integration_method": "execution_framework"
+        },
+        {
+          "type": "automation",
+          "name": "trading_bot",
+          "description": "Automated trading system",
+          "integration_method": "bot_integration"
+        },
+        {
+          "type": "profit_strategy",
+          "name": "profit_targeting",
+          "description": "Specific profit targeting strategy",
+          "integration_method": "profit_optimization"
+        }
+      ],
+      "risk_assessment": "medium",
+      "timeframe": "multi_timeframe",
+      "market_conditions": [
+        "general_market"
+      ],
+      "integration_potential": "high",
+      "extracted_for_aiiq": true
+    }
+  ],
+  "medium_scoring_elements": [],
+  "elements": [
+    {
+      "video_id": "xyvqJdyUVIA",
+      "title": "$322 in 1 Hour - Trading Bot Analysis",
+      "channel": "Trading Pros",
+      "pait_score": 100,
+      "trading_elements": [
+        {
+          "type": "technical_indicator",
+          "name": "rsi",
+          "description": "RSI momentum indicator",
+          "integration_method": "signal_combination"
+        },
+        {
+          "type": "technical_indicator",
+          "name": "macd",
+          "description": "MACD trend indicator",
+          "integration_method": "signal_combination"
+        },
+        {
+          "type": "strategy_pattern",
+          "name": "active_trading",
+          "description": "Active trading strategy",
+          "integration_method": "execution_framework"
+        },
+        {
+          "type": "automation",
+          "name": "trading_bot",
+          "description": "Automated trading system",
+          "integration_method": "bot_integration"
+        },
+        {
+          "type": "profit_strategy",
+          "name": "profit_targeting",
+          "description": "Specific profit targeting strategy",
+          "integration_method": "profit_optimization"
+        }
+      ],
+      "risk_assessment": "medium",
+      "timeframe": "multi_timeframe",
+      "market_conditions": [
+        "general_market"
+      ],
+      "integration_potential": "high",
+      "extracted_for_aiiq": true
+    }
+  ]
+}

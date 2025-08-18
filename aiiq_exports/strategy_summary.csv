@@ -1,0 +1,2 @@
+strategy_id,name,pait_score,risk_level,elements_count,recommended_capital,position_size_percent,expected_win_rate,backtest_priority
+pait_xyvqJdyUVIA_20250818,pAIt Strategy: $322 in 1 Hour - Trading Bot Analys,100,medium,5,10000,3,65-75%,high

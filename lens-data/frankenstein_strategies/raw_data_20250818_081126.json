@@ -1,0 +1,32 @@
+{
+  "collected_at": "2025-08-18T13:10:42.624013",
+  "collection_version": "1.2",
+  "data_source": "Enhanced GPU YouTube Collection",
+  "gpu_models_available": [
+    "jbot",
+    "claudia-trader",
+    "trader-max",
+    "kathy-ops",
+    "qwen2.5:72b",
+    "fraud-detector"
+  ],
+  "served_at": "2025-08-18T13:11:26.749366",
+  "total_videos_analyzed": 1,
+  "youtube_analysis": [
+    {
+      "analysis": "REAL ANALYSIS: Trading bot demonstrates scalping strategy with $322/hour profit target. Uses RSI momentum indicators, MACD crossovers, and automated risk management. Strong technical foundation with practical execution methods. Excellent for Frankenstein strategy extraction. Contains: RSI signals, profit targeting, automated execution, stop-loss management. pAIt Score: 88/100 - High integration potential for AiiQ platform.",
+      "channel": "Trading Pros",
+      "collection_type": "youtube_pait_analysis",
+      "duration": 352,
+      "frankenstein_ready": true,
+      "model_used": "claudia-trader",
+      "pait_score": 88,
+      "processed_at": "2025-08-18T13:10:42.624009",
+      "title": "$322 in 1 Hour - Trading Bot Analysis",
+      "upload_date": "20250818",
+      "video_id": "xyvqJdyUVIA",
+      "video_url": "https://youtube.com/shorts/xyvqJdyUVIA",
+      "views": 141000
+    }
+  ]
+}

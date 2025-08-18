@@ -1,0 +1,22 @@
+# YouTube Analyzer Dependencies
+# Compatible with Python 3.12+ on Windows & Linux
+
+# Core video downloading
+yt-dlp>=2024.8.6
+
+# AI transcription  
+openai-whisper>=20231117
+
+# Audio/video processing (install separately if needed)
+# ffmpeg - Download from https://ffmpeg.org/ or use package manager
+
+# Standard library dependencies (included with Python)
+# pathlib, subprocess, json, argparse, logging, datetime, platform
+
+# Optional: Enhanced audio processing
+# torch>=2.0.0  # For better Whisper performance on GPU
+# torchaudio>=2.0.0
+
+# Optional: Progress bars and enhanced CLI
+# tqdm>=4.64.0
+# colorama>=0.4.6  # For colored output on Windows

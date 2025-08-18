@@ -1,0 +1,85 @@
+{
+  "content_analyzed": "\n        $322 IN JUST HOUR\n        WITH POCKET OPTION\n        $322 in 1 Hour?! Pocket Option AI Trading Bot from Telegram BLEW My Mind\n        141K views • 3 weeks ago\n        Techno Cows\n        Binary Options Trading Bot\n        Telegram Channel: @PocketOptionBot\n        Success Rate: 99.2%\n        Profit Tracking Dashboard\n        Real-time Signals\n        ",
+  "metadata": {
+    "source": "manual_input",
+    "timestamp": "2025-08-18T06:20:49.651117"
+  },
+  "analysis_timestamp": "2025-08-18T06:20:49.651768",
+  "profit_analysis": {
+    "claimed_amounts": [
+      "$322",
+      "$322"
+    ],
+    "time_claims": [
+      [
+        "1",
+        "hour"
+      ],
+      [
+        "3",
+        "week"
+      ],
+      [
+        "1",
+        "hour"
+      ]
+    ],
+    "realism_score": 6,
+    "red_flags": [
+      "Hourly profit claims"
+    ]
+  },
+  "strategy_analysis": {
+    "strategy_type": "Binary Options",
+    "platforms": [
+      "pocket option"
+    ],
+    "tools": [
+      "bot",
+      "signal",
+      "ai"
+    ],
+    "indicators": [],
+    "mentions_bot": true,
+    "mentions_telegram": true
+  },
+  "educational_analysis": {
+    "score": 4,
+    "educational_mentions": 1,
+    "learnable_concepts": [
+      "Signal recognition"
+    ],
+    "skill_level": "beginner"
+  },
+  "pait_components": {
+    "strategy_logic": 18,
+    "risk_transparency": 7,
+    "proof_quality": 12,
+    "educational_merit": 10.0,
+    "total_pait_score": 47.0
+  },
+  "frankenstein_recommendations": {
+    "base_concept": "Binary Options",
+    "extractable_value": [
+      "bot",
+      "signal",
+      "ai"
+    ],
+    "safety_modifications": [
+      "Manual verification of bot signals",
+      "Reduced position sizing for automated trades",
+      "Limit binary options to <5% of portfolio",
+      "Focus on longer time frames"
+    ],
+    "integration_potential": [
+      "Cross-platform signal verification"
+    ]
+  },
+  "final_assessment": {
+    "pait_score": 47.0,
+    "recommendation": "RISKY - Avoid or educational only",
+    "badge": "🚨 High Risk",
+    "risk_level": "VERY HIGH"
+  },
+  "member_summary": "High-risk binary options content with limited educational value. Best avoided or viewed critically."
+}
