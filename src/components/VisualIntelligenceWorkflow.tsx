@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Upload, Sparkles, TrendingUp, Shield, Crown, Star, BarChart3, Target, AlertTriangle, CheckCircle } from 'lucide-react'
+import { Upload, Sparkles, TrendingUp, Shield, Crown, Star, BarChart3, Target, AlertTriangle, CheckCircle, MessageCircle, Settings, Search, Lock, Fingerprint, Cpu, FileText } from 'lucide-react'
 import PAItScoreOrb from './PAItScoreOrb'
 
 interface VideoMetadata {
@@ -63,6 +63,14 @@ export default function VisualIntelligenceWorkflow({ isAuthenticated, userType }
       category: 'Financial',
       vipOnly: false,
       icon: TrendingUp
+    },
+    {
+      id: 'video-thumbnail',
+      name: '🎥 Video Thumbnail Analysis',
+      description: 'Analyze video thumbnails, YouTube shorts, TikTok content',
+      category: 'Video',
+      vipOnly: false,
+      icon: Star
     },
     {
       id: 'ai-detection', 
@@ -416,7 +424,7 @@ export default function VisualIntelligenceWorkflow({ isAuthenticated, userType }
           </div>
         </div>
         <h1 className="text-2xl font-bold text-white mb-2">CLAIRE</h1>
-        <p className="text-gray-300">Visual Intelligence Platform - Upload any image for comprehensive analysis</p>
+        <p className="text-gray-300">Universal Visual Intelligence - Upload any image, screenshot, or video thumbnail</p>
       </div>
 
       {/* Controls */}

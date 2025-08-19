@@ -263,69 +263,14 @@ function App() {
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {showVisualIntelligence ? (
+          {showVisualAnalysis ? (
+            <VisualPAItAnalysis />
+          ) : (
+            /* Default to Visual Intelligence Workflow */
             <VisualIntelligenceWorkflow 
               isAuthenticated={isAuthenticated}
               userType={userType}
             />
-          ) : showVisualAnalysis ? (
-            <VisualPAItAnalysis />
-          ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Left Column - Upload & Preview */}
-            <div className="space-y-6">
-              <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h2 className="text-lg font-semibold mb-4">Upload Image</h2>
-                <VIPUploader 
-                  onImageUpload={handleImageUpload}
-                  userType={userType}
-                  isAuthenticated={isAuthenticated}
-                />
-              </div>
-
-              {imagePreview && (
-                <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold">Preview</h2>
-                    <button
-                      onClick={analyzeImage}
-                      disabled={isAnalyzing}
-                      className="px-4 py-2 bg-crella-600 hover:bg-crella-700 disabled:bg-gray-400 text-white rounded-lg transition-colors flex items-center space-x-2"
-                    >
-                      <Eye className="h-4 w-4" />
-                      <span>{isAnalyzing ? 'Analyzing...' : 'Analyze Image'}</span>
-                    </button>
-                  </div>
-                  <ImagePreview imageUrl={imagePreview} />
-                </div>
-              )}
-            </div>
-
-            {/* Right Column - Results & Strategies */}
-            <div className="space-y-6">
-              {/* Options Strategies for Members */}
-              <OptionsStrategies
-                isAuthenticated={isAuthenticated}
-                userType={userType}
-              />
-
-              {analysisResult && (
-                <>
-                  <EnhancedAnalysisResults 
-                    result={analysisResult as any}
-                    isVIP={isVIPUpload}
-                  />
-                  <VaultActions
-                    result={analysisResult}
-                    isAuthenticated={isAuthenticated}
-                    userType={userType}
-                    onSave={handleSaveToVault}
-                    onDiscard={handleDiscardAnalysis}
-                  />
-                </>
-              )}
-            </div>
-          </div>
           )}
         </main>
 
