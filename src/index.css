@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Crella Brand Font */
+.crella-font {
+  font-family: 'Segoe Script', cursive, serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}

@@ -121,7 +121,7 @@ const VisualPAItAnalysis: React.FC = () => {
         <div className="bg-gradient-to-r from-teal-600 to-teal-700 rounded-lg p-4">
           <div className="flex items-center mb-2">
             <Zap className="w-5 h-5 text-yellow-400 mr-2" />
-            <span className="text-white font-semibold">Crella-Lens</span>
+            <span className="text-white font-semibold crella-font">Crella</span><span className="text-white font-semibold">-Lens</span>
           </div>
           <div className="text-white text-sm opacity-80">Multi-Agent System</div>
           <div className="text-4xl font-bold text-white mt-2">{result.pait_score}</div>

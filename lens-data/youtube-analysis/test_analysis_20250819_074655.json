@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "processTime": "2025-08-19 07:46:55",
+    "processingDate": "2025-08-19",
+    "title": "ORB Trading Strategy - Test Analysis",
+    "author": "TestChannel",
+    "platform": "YouTube Shorts",
+    "views": "126K",
+    "analysisId": "test_analysis_20250819_074655"
+  },
+  "paitScores": {
+    "technicalAccuracy": 6,
+    "executionFeasibility": 5,
+    "riskManagement": 5,
+    "marketConditions": 7,
+    "strategyClarity": 7,
+    "profitabilityPotential": 8,
+    "overallScore": 850
+  },
+  "swot": {
+    "strengths": [
+      "Recognizable breakout pattern approach",
+      "Strong community backing",
+      "Clear visual chart examples"
+    ],
+    "weaknesses": [
+      "Limited risk management details",
+      "No backtesting data provided",
+      "Lacks market condition filters"
+    ],
+    "opportunities": [
+      "Trending community-driven strategy",
+      "Social media amplification potential",
+      "Educational content monetization"
+    ],
+    "threats": [
+      "Market volatility impact",
+      "Overconfidence from viral content",
+      "Lack of proper risk education"
+    ]
+  },
+  "claireInsight": "Hi! \ud83d\udc4b This strategy shows some interesting breakout patterns! The technical setup looks promising, but I'd love to see more details about risk management. The community engagement is fantastic though - that's always a good sign! \ud83d\udcc8\u2728",
+  "kathyAnalysis": "Strong technical foundation with solid pattern recognition. Risk parameters need enhancement, but overall approach is sound for experienced traders.",
+  "profitabilityGrade": "High",
+  "isVIPAnalysis": false,
+  "textContent": "[Mock] ORB Trading Strategy - Breakout patterns - Risk management - Entry signals",
+  "timestamp": "2025-08-19T07:46:55.470626"
+}

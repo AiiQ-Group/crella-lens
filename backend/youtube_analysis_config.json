@@ -1,0 +1,34 @@
+{
+  "youtube_analysis": {
+    "watch_directory": "lens-data/uploads",
+    "processed_directory": "lens-data/processed",
+    "analysis_directory": "lens-data/youtube-analysis",
+    "supported_formats": [
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".bmp",
+      ".tiff"
+    ],
+    "processing_interval": 60,
+    "cleanup_days": 30
+  },
+  "pait_scoring": {
+    "score_range": [
+      200,
+      1000
+    ],
+    "categories": {
+      "technical_accuracy": 0.2,
+      "execution_feasibility": 0.18,
+      "risk_management": 0.22,
+      "market_conditions": 0.15,
+      "strategy_clarity": 0.15,
+      "profitability_potential": 0.1
+    }
+  },
+  "api_endpoints": {
+    "claire_api": "http://localhost:5001/api/claire/chat",
+    "analysis_webhook": "http://localhost:3000/api/analysis/webhook"
+  }
+}

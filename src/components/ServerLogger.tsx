@@ -200,7 +200,7 @@ export default function ServerLogger({ userType }: ServerLoggerProps) {
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-green-400 flex items-center space-x-2">
                 <Terminal className="h-5 w-5" />
-                <span>Crella Server Logs</span>
+                <span><span className="crella-font">Crella</span> Server Logs</span>
               </h3>
               <div className="flex items-center space-x-2">
                 <button

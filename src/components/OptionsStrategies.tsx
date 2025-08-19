@@ -224,7 +224,7 @@ export default function OptionsStrategies({ isAuthenticated, userType }: Options
       <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
         <p className="text-xs text-amber-800 dark:text-amber-200">
           <strong>⚠️ Demo Strategies:</strong> These are example strategies for educational purposes. 
-          Always consult with Crella.AI Assistant before executing any trades.
+          Always consult with <span className="crella-font">Crella</span>.AI Assistant before executing any trades.
         </p>
       </div>
     </div>
