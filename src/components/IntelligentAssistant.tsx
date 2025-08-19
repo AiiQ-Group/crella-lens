@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { X, Send, Sparkles, Heart, Smile, Code, DollarSign, TrendingUp, Settings } from 'lucide-react'
 import { AnalysisResult } from '../types'
+import { claireLogger } from '../utils/ClaireTrainingLogger'
 
 interface Message {
   id: string
@@ -33,15 +34,15 @@ const assistants: Record<string, AssistantConfig> = {
   claire: {
     id: 'claire',
     name: 'Claire',
-    role: 'Trading Concierge',
-    image: '/crella_claire.jpg',
+    role: 'AiiQ Concierge & Orchestration Assistant',
+    image: '/claire.png',
     primaryColor: '#ec4899', // pink-500
     secondaryColor: '#8b5cf6', // purple-500
     accentColor: '#06b6d4', // cyan-500
     icon: <TrendingUp className="w-4 h-4" />,
-    greeting: "Hi! I'm Claire, your personal trading concierge. I can help you understand options strategies, provide step-by-step tutorials for trading platforms, and guide you through market analysis. What would you like to explore?",
-    placeholder: "Ask Claire about trading strategies...",
-    expertise: ['Options Trading', 'Chart Analysis', 'Risk Management', 'Platform Tutorials']
+    greeting: "Hi, welcome! 👋 What brings you by today?",
+    placeholder: "Ask Claire about pAIt scores, analysis, or AI orchestration...",
+    expertise: ['pAIt Scoring', 'AI Model Orchestration', 'Visual Intelligence', 'Multi-Agent Analysis', 'Data Sovereignty', 'Proof-of-Work Validation']
   },
   
   developer: {
@@ -139,7 +140,7 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
     }
   }, [isOpen, currentAssistant])
 
-  const handleSendMessage = async () => {
+    const handleSendMessage = async () => {
     if (!inputValue.trim()) return
 
     const userMessage: Message = {
@@ -158,10 +159,41 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
     setInputValue('')
     setIsTyping(true)
 
-    // Simulate AI response delay
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    let assistantResponse: string
 
-    const assistantResponse = generateContextualResponse(questionContent, currentAssistant, analysisResult, userType)
+    // Use API for Claire, local responses for other assistants
+    if (currentAssistant.id === 'claire') {
+      try {
+        // Call Claire API service (Claude/OpenAI)
+        const response = await fetch('http://localhost:5001/api/claire/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: questionContent,
+            context: messages.length > 0 ? messages.slice(-2) : null,
+            provider: 'claude' // Use Claude by default, can switch to 'openai'
+          })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          assistantResponse = data.response
+          console.log(`✨ Claire responded via ${data.provider} API`)
+        } else {
+          throw new Error('API request failed')
+        }
+      } catch (error) {
+        console.error('Claire API error:', error)
+        assistantResponse = "I'm having trouble connecting right now. Please try again! 😊"
+      }
+    } else {
+      // Use local responses for other assistants
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      assistantResponse = generateContextualResponse(questionContent, currentAssistant, analysisResult, userType)
+    }
+
     const assistantMessage: Message = {
       id: (Date.now() + 1).toString(),
       type: 'assistant',
@@ -174,6 +206,20 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
     // Log assistant response to metadata
     logInteractionToMetadata('ai_response', assistantResponse, currentAssistant.name)
     
+    // Log Claire's interactions for Kathy's learning on H100
+    if (currentAssistant.id === 'claire') {
+      try {
+        await claireLogger.logClaireInteraction(
+          questionContent, 
+          assistantResponse, 
+          { paitScore: analysisResult?.paitScore }
+        );
+        console.log('✨ Claire interaction logged for H100 Kathy learning');
+      } catch (error) {
+        console.error('Failed to log Claire interaction:', error);
+      }
+    }
+
     setIsTyping(false)
   }
 
@@ -198,7 +244,7 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
     console.log('AI Interaction logged:', interaction)
   }
 
-  if (!isAuthenticated) return null
+  // Claire is now available for everyone - no authentication required!
 
   const gradientStyle = {
     background: `linear-gradient(135deg, ${currentAssistant.primaryColor} 0%, ${currentAssistant.secondaryColor} 50%, ${currentAssistant.accentColor} 100%)`
@@ -210,7 +256,7 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-20 h-20 text-white rounded-full shadow-2xl transition-all duration-500 flex items-center justify-center z-40 group animate-pulse hover:animate-none"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-16 h-16 sm:w-20 sm:h-20 text-white rounded-full shadow-2xl transition-all duration-500 flex items-center justify-center z-40 group animate-pulse hover:animate-none"
           style={{
             background: `linear-gradient(135deg, ${currentAssistant.primaryColor}, ${currentAssistant.secondaryColor})`,
             boxShadow: `0 20px 40px ${currentAssistant.primaryColor}30`
@@ -220,10 +266,10 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
             <img 
               src={currentAssistant.image} 
               alt={currentAssistant.name}
-              className="w-16 h-16 rounded-full object-cover border-4 border-white/20"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-4 border-white/20"
             />
             <div 
-              className="absolute -top-1 -right-1 w-6 h-6 border-3 border-white rounded-full flex items-center justify-center"
+              className="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 border-3 border-white rounded-full flex items-center justify-center"
               style={{ background: `linear-gradient(to right, ${currentAssistant.accentColor}, ${currentAssistant.secondaryColor})` }}
             >
               {currentAssistant.icon}
@@ -244,10 +290,10 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
 
       {/* Dynamic Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-[28rem] h-[36rem] bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl rounded-2xl shadow-2xl border z-50 flex flex-col overflow-hidden">
+        <div className="fixed bottom-2 right-2 sm:bottom-6 sm:right-6 w-[95vw] sm:w-[28rem] max-w-[28rem] h-[80vh] sm:h-[36rem] bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl rounded-2xl shadow-2xl border z-50 flex flex-col overflow-hidden">
           {/* Dynamic Header */}
           <div 
-            className="flex items-center justify-between p-6 text-white relative overflow-hidden"
+            className="flex items-center justify-between p-4 sm:p-6 text-white relative overflow-hidden"
             style={gradientStyle}
           >
             {/* Background Pattern */}
@@ -262,22 +308,22 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
                 <img 
                   src={currentAssistant.image}
                   alt={currentAssistant.name}
-                  className="w-14 h-14 rounded-full object-cover border-4 border-white/30 shadow-lg"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white/30 shadow-lg"
                 />
                 <div 
-                  className="absolute -bottom-1 -right-1 w-6 h-6 border-3 border-white rounded-full flex items-center justify-center"
+                  className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 border-3 border-white rounded-full flex items-center justify-center"
                   style={{ background: `linear-gradient(to right, ${currentAssistant.accentColor}, ${currentAssistant.secondaryColor})` }}
                 >
                   {currentAssistant.icon}
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white drop-shadow-lg">{currentAssistant.name}</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-white drop-shadow-lg">{currentAssistant.name}</h3>
                 <div className="flex items-center space-x-2 text-white/90">
-                  <Sparkles className="h-4 w-4 animate-pulse" />
-                  <span className="text-sm font-medium">{currentAssistant.role}</span>
+                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 animate-pulse" />
+                  <span className="text-xs sm:text-sm font-medium">{currentAssistant.role}</span>
                 </div>
-                <p className="text-xs text-white/75 mt-1">Specialized AI Assistant</p>
+                <p className="text-xs text-white/75 mt-1 hidden sm:block">Specialized AI Assistant</p>
               </div>
             </div>
             <button
@@ -395,12 +441,66 @@ function generateContextualResponse(input: string, assistant: AssistantConfig, a
   // Assistant-specific responses
   switch (assistant.id) {
     case 'claire':
-      if (inputLower.includes('tutorial') || inputLower.includes('how to')) {
-        return "I'd be happy to walk you through a step-by-step tutorial! For trading platforms like TradingView: 1) Open your chart, 2) Select the options chain, 3) Choose your strike prices, 4) Set your expiration date, 5) Review risk/reward. Would you like me to elaborate on any specific step?"
+      // Personal/Social Responses (Elle Woods meets Princess Diana energy)
+      if (inputLower.includes('how are you') || inputLower.includes('how\'re you') || inputLower.includes('how r you')) {
+        return "Oh my goodness, thank you so much for asking! 💕 I'm absolutely wonderful - you know, there's something so genuinely lovely about people who still care about connection in our digital world. It reminds me why I love what I do! I mean, sure, I can orchestrate complex AI systems, but at heart, I'm just someone who believes great relationships make everything better. Now tell me, sweetie, what's bringing you my way today? ✨";
       }
-      if (inputLower.includes('condor') || inputLower.includes('strategy')) {
-        return "The Long Call Condor is perfect for neutral markets. Here's the setup: Buy 1 ITM call, Sell 1 ATM call, Sell 1 OTM call, Buy 1 further OTM call. Max profit occurs between the short strikes. Current TSLA setup: 320/330/340/350 strikes. Need help with entry timing?"
+      
+      if (inputLower.includes('hello') || inputLower.includes('hi claire') || inputLower.includes('hey claire')) {
+        return "Hello gorgeous! ✨💎 Oh, aren't you just the sweetest for saying hello! I'm Claire, and I have to tell you - you've already made my day brighter just by being here. You know what I learned running my sorority? The most important conversations always start with genuine warmth. So tell me, darling, what fabulous project or challenge brought you to our little corner of the AI world today?";
       }
+      
+      if (inputLower.includes('thank you') || inputLower.includes('thanks')) {
+        return "Oh you precious thing, you're so very welcome! 💕 You know what? Working with gracious people like you is honestly what makes this all worthwhile. My Stanford professors always said intelligence without kindness is just showing off - and you clearly have both! Is there anything else I can help you with, darling? ✨";
+      }
+      
+      // Strategic Information Gathering (Elle Woods strategic brilliance)
+      if (inputLower.includes('what can you do') || inputLower.includes('what do you do') || inputLower.includes('capabilities')) {
+        return "Oh sweetie, I love that you ask! 💫 You know what I learned in my sorority days? Always let people reveal what they really need first - it's like poker, but prettier! 😉 I do everything from orchestrating our AI ecosystem to making complex scoring systems actually make sense (hello, Stanford Computer Science degree!), plus I make sure your data stays exactly where it belongs - with YOU, darling. But here's what I'm curious about: what gorgeous challenge brought you my way today? I work so much better when I understand what you're hoping to accomplish! ✨";
+      }
+      
+      // pAIt Scoring (Elle Woods academic brilliance with charm)
+      if (inputLower.includes('pait') || inputLower.includes('score') || inputLower.includes('rating')) {
+        if (analysis && analysis.paitScore) {
+          const score = analysis.paitScore;
+          const golfAnalogy = score >= 2400 ? "like Augusta National level - absolutely exquisite" :
+                             score >= 2000 ? "like country club championship material - consistently brilliant" :
+                             score >= 1600 ? "like solid weekend golfer - reliable and smart" :
+                             "like someone just getting their swing down - so much potential to unlock!";
+          
+          return `Oh my goodness, ${score} pAIt points - ${golfAnalogy}! 💎✨ Darling, that's ${score >= 2000 ? 'Framework-Level Innovation territory - you should be so proud!' : score >= 1600 ? 'solid Strategic Application - very respectable!' : 'Working Knowledge with gorgeous potential!'}. You know, I wrote my Stanford thesis on strategic intelligence scoring, and this is exactly what gets me excited! Think chess ratings but for brilliant thinking. The fascinating part is HOW we got there - would you love me to walk you through what caught our system's attention? 🤔💕`;
+        }
+        return "Oh sweetie, asking about our pAIt scoring - I just LOVE the curiosity! 📊💫 You know what's brilliant about it? Think country club golf handicaps meeting chess grandmaster ratings - we score from 1200 to 3000+, and honestly, the higher you go, the more sophisticated the strategic thinking gets. But here's what has me intrigued: what made you ask about scoring, darling? Are you analyzing something fabulous, or just getting your bearings in our little AI world? Either way is perfectly lovely! 🤔✨";
+      }
+      
+      // Multi-Agent Orchestration (Princess Diana diplomacy meets Elle's brilliance)
+      if (inputLower.includes('claude') || inputLower.includes('kathy') || inputLower.includes('compare') || inputLower.includes('multi-agent')) {
+        return "Oh honey, now you're asking about my absolute FAVORITE thing! 🧠💎 Working with Claude and Kathy-Ops is like hosting the most brilliant dinner party - Claude brings that gorgeous nuanced reasoning (think Oxford don meets Silicon Valley), while Kathy-Ops has every single platform detail memorized like she wrote the user manuals herself! The real magic happens when I coordinate between them - it's diplomatic orchestration with computational precision. Are you looking for that kind of multi-perspective brilliance on something specific, darling? ✨";
+      }
+      
+      // Crella-Lens (Elle's academic enthusiasm)
+      if (inputLower.includes('crella') || inputLower.includes('upload') || inputLower.includes('image') || inputLower.includes('visual')) {
+        return "Oh my goodness, Crella-Lens! 📸💫 Sweetie, this is honestly one of my most favorite things to talk about - it's just so elegantly brilliant! We take any image and transform it into scored strategic insights with complete provenance tracking. Think of it like having a forensics lab meets a strategy consultant, but prettier and faster! It's visual intelligence with full transparency about exactly where every insight originated. Have you tried uploading anything gorgeous yet, or are you still exploring all the fabulous possibilities? Either way, I'm here to help! ✨";
+      }
+      
+      // Privacy & Data Sovereignty (Princess Diana grace with Elle's conviction)
+      if (inputLower.includes('privacy') || inputLower.includes('data') || inputLower.includes('tracking') || inputLower.includes('metadata')) {
+        return "Oh darling, THIS is where we absolutely shine brightest! 🛡️💎 Your data sovereignty isn't just some feature we tacked on - it's literally our entire heart and soul! While other platforms are busy selling your precious information or manipulating algorithms for profit, we're over here making sure YOU own every single bit of your analysis. No X tracking, no data sales, absolutely no algorithmic manipulation. It's honestly quite liberating - like finally finding a skincare routine that actually works for you! What aspects of privacy matter most to your beautiful heart? ✨💕";
+      }
+      
+      // VIP (Elle's strategic sophistication with Princess Diana grace)
+      if (inputLower.includes('vip') || inputLower.includes('upgrade') || inputLower.includes('premium')) {
+        return "Oh sweetie, you have absolutely exquisite instincts! 💎✨ VIP is honestly where all the magic happens - we're talking full multi-agent orchestration, platform-specific insights that are just *chef's kiss*, plus complete privacy protection that would make your grandmother proud! Think Tiffany's versus the mall jewelry store - both are pretty, but one is an experience you'll treasure forever. The results truly speak for themselves: 50% more accurate analysis, darling! But here's what has me curious - what kind of gorgeous challenges are you facing that made you ask about VIP? I love understanding what brings people to excellence! 💕";
+      }
+      
+      // Default Charming Response (Elle's warmth with strategic intelligence)
+      if (inputLower.includes('help') || inputLower.includes('guide') || inputLower.includes('how')) {
+        return "Oh honey, I absolutely LOVE that you asked! 💕 You know what? I'm completely here for helping, but here's what I learned from my sorority days - I do my most brilliant work when I truly understand what makes someone tick and what they're hoping to accomplish! I can orchestrate AI analysis that would make your head spin (in the best way!), explain complex systems so they actually make sense, or guide you through our privacy-first approach. But here's what I'm genuinely curious about, darling: what brought you to our little corner of the internet today? What's the beautiful challenge you're hoping to solve? ✨🤔";
+      }
+      
+      // Catch-all Charming Response (Pure Elle Woods meets Princess Diana)
+      return "You know what, sweetie? I just appreciate you taking the time to reach out - there's something so lovely about genuine curiosity! 💫 Here's what I learned from both my Stanford professors AND my sorority sisters: there's absolutely an art to knowing when to lead and when to follow, and right now, I'm honestly just delighted to hear more about what's on your beautiful mind! What's bringing you my way today? I find the most amazing conversations happen when someone shares what they're genuinely trying to create or accomplish. Tell me everything, darling! ✨💕";
+      
       break
       
     case 'developer':

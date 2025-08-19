@@ -1,0 +1,57 @@
+{
+  "greeting": "\ud83d\udc4b Hi! I'm Claire, your AiiQ AI Concierge",
+  "analysis_summary": "I see you're exploring architect_level content (pAIt: 2200)",
+  "value_proposition": {
+    "current_analysis": "Surface-level public analysis",
+    "vip_upgrade": "\ud83c\udfc6 Elite Strategy Insights",
+    "exclusive_benefits": [
+      "\ud83d\udd2c Multi-agent deep analysis (Kathy-Ops + Claude + JBot)",
+      "\ud83d\udcc8 Trading strategy extraction (Frankenstein system)",
+      "\ud83d\udee1\ufe0f Complete privacy protection (no X/YouTube tracking)",
+      "\ud83d\udcac Direct concierge chat access",
+      "\ud83d\udcca Unlimited pAIt analysis requests",
+      "\ud83c\udfaf Priority H100 GPU processing"
+    ]
+  },
+  "membership_tiers": {
+    "standard": {
+      "price": "Free",
+      "limits": "3 analyses/month",
+      "features": [
+        "Basic pAIt scoring",
+        "Public analysis"
+      ]
+    },
+    "vip": {
+      "price": "$29/month",
+      "limits": "Unlimited",
+      "features": [
+        "Multi-agent analysis",
+        "Trading strategy extraction",
+        "Complete privacy protection",
+        "Concierge chat access",
+        "H100 GPU priority",
+        "Export to trading platforms"
+      ]
+    },
+    "enterprise": {
+      "price": "$299/month",
+      "limits": "Unlimited + API access",
+      "features": [
+        "All VIP features",
+        "Custom AI model training",
+        "White-label integration",
+        "Dedicated H100 allocation"
+      ]
+    }
+  },
+  "privacy_selling_points": [
+    "\ud83d\udeab No tracking by X/Twitter algorithm",
+    "\ud83d\udeab No data sold to Rick Beato or other creators",
+    "\ud83d\udeab No engagement manipulation",
+    "\u2705 Your analysis, your data, your privacy",
+    "\u2705 Anonymous pAIt scoring",
+    "\u2705 Encrypted analysis storage"
+  ],
+  "call_to_action": "Upgrade to VIP for deeper insights on this content?"
+}

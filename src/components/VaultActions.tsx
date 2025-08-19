@@ -16,7 +16,11 @@ export default function VaultActions({ result, isAuthenticated, userType, onSave
     <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold flex items-center space-x-2">
-          <Archive className="h-5 w-5 text-crella-600" />
+          <img 
+            src="/lens_vault.png" 
+            alt="Vault" 
+            className="w-5 h-5 object-contain"
+          />
           <span>Private Vault</span>
           {userType === 'staff' && (
             <span className="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 rounded-full text-xs font-medium">

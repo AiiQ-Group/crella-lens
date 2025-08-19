@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Moon, Sun, Eye, Shield, LogOut } from 'lucide-react'
+import { Moon, Sun, Eye, Shield, LogOut, Sparkles } from 'lucide-react'
 import VIPUploader, { generateTraderAnalysis } from './components/VIPUploader'
 import ImagePreview from './components/ImagePreview'
 import EnhancedAnalysisResults from './components/EnhancedAnalysisResults'
@@ -8,9 +8,12 @@ import LoginModal from './components/LoginModal'
 import VaultActions from './components/VaultActions'
 import OptionsStrategies from './components/OptionsStrategies'
 import IntelligentAssistant from './components/IntelligentAssistant'
+import FloatingVault from './components/FloatingVault'
 import SessionTracker from './components/SessionTracker'
 import ImageMetadata from './components/ImageMetadata'
 import AnalyticsDashboard from './components/AnalyticsDashboard'
+import VisualPAItAnalysis from './components/VisualPAItAnalysis'
+// Using existing IntelligentAssistant (Ferrari Chat) instead
 import { AnalysisResult } from './types'
 
 function App() {
@@ -20,6 +23,7 @@ function App() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [isVIPUpload, setIsVIPUpload] = useState(false)
+  const [showVisualAnalysis, setShowVisualAnalysis] = useState(false)
   
   // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -33,10 +37,10 @@ function App() {
   }
 
   const handleLogin = (type: 'staff' | 'member', code: string) => {
-    // Simple demo authentication
+    // Simple demo authentication - unified password for easy demo
     const validCodes = {
-      member: 'TRADER2024',
-      staff: 'CRELLA_ADMIN'
+      member: 'crella123',
+      staff: 'crella123'
     }
     
     if (validCodes[type] === code) {
@@ -165,27 +169,24 @@ function App() {
         }}
       >
         {/* Header */}
-        <header className="border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center space-x-3">
-                <img 
-                  src="/crella_logo.png" 
-                  alt="Crella" 
-                  className="h-10 w-auto"
-                />
-                <div className="flex flex-col">
-                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Crella Lens
-                  </h1>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    AI Image Intelligence
-                  </span>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                {/* Authentication Status */}
+        <header className="border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm relative">
+          {/* Full-width header image */}
+          <div 
+            className="w-full h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 bg-center bg-no-repeat transition-all duration-300"
+            style={{ 
+              backgroundImage: 'url(/lens_header1920.svg)',
+              backgroundSize: '100% auto',
+              backgroundPosition: 'center'
+            }}
+          ></div>
+        </header>
+
+        {/* Controls Bar - Under Header */}
+        <div className="border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="flex items-center justify-between">
+              {/* Authentication Status */}
+              <div>
                 {isAuthenticated ? (
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center space-x-2 px-3 py-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
@@ -208,14 +209,26 @@ function App() {
                     </button>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => setShowLoginModal(true)}
-                    className="flex items-center space-x-2 px-3 py-2 bg-crella-100 dark:bg-crella-900/30 hover:bg-crella-200 dark:hover:bg-crella-900/50 text-crella-700 dark:text-crella-300 rounded-lg transition-colors"
-                  >
-                    <Shield className="h-4 w-4" />
-                    <span className="text-sm font-medium">Private Vault</span>
-                  </button>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Guest Access
+                  </div>
                 )}
+              </div>
+
+              {/* Action Controls */}
+              <div className="flex items-center space-x-3">
+                {/* Visual Analysis Toggle */}
+                <button
+                  onClick={() => setShowVisualAnalysis(!showVisualAnalysis)}
+                  className={`p-2 rounded-lg transition-colors ${
+                    showVisualAnalysis 
+                      ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' 
+                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
+                  title="Visual pAIt Analysis"
+                >
+                  <Sparkles className="h-5 w-5" />
+                </button>
 
                 {/* Dark Mode Toggle */}
                 <button
@@ -231,10 +244,13 @@ function App() {
               </div>
             </div>
           </div>
-        </header>
+        </div>
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {showVisualAnalysis ? (
+            <VisualPAItAnalysis />
+          ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left Column - Upload & Preview */}
             <div className="space-y-6">
@@ -290,6 +306,7 @@ function App() {
               )}
             </div>
           </div>
+          )}
         </main>
 
         {/* Login Modal */}
@@ -297,6 +314,13 @@ function App() {
           isOpen={showLoginModal}
           onClose={() => setShowLoginModal(false)}
           onLogin={handleLogin}
+        />
+
+        {/* Floating Private Vault */}
+        <FloatingVault
+          isAuthenticated={isAuthenticated}
+          userType={userType}
+          onVaultClick={() => setShowLoginModal(true)}
         />
 
         {/* Intelligent AI Assistant */}
@@ -326,6 +350,8 @@ function App() {
 
         {/* Server Logger */}
         <ServerLogger userType={userType} />
+
+        {/* Existing Ferrari Chat (IntelligentAssistant) is now persistent for everyone! */}
       </div>
     </div>
   )

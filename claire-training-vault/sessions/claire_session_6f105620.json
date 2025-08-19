@@ -1,0 +1,19 @@
+{
+  "response_id": "0517022a-6e0",
+  "user_prompt": "How are you doing today Claire?",
+  "claire_response": "Oh my goodness, thank you so much for asking! \ud83d\udc95 I'm absolutely wonderful - you know, there's something so genuinely lovely about people who still care about connection in our digital world. Now tell me, sweetie, what's bringing you my way today? \u2728",
+  "strategy_used": "charm_building",
+  "emotional_tone": "professional_friendly",
+  "conversion_elements": [],
+  "metadata": {
+    "session_id": "6f105620",
+    "timestamp": "2025-08-18T16:03:23.608415",
+    "user_tone": "curious",
+    "claire_tone": "charming",
+    "gto_decision": "information_gathering",
+    "pait_context": null,
+    "vip_conversion_attempt": false,
+    "privacy_education": false,
+    "user_satisfaction": 0.9
+  }
+}

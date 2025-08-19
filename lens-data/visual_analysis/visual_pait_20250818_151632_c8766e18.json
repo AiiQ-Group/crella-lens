@@ -1,0 +1,77 @@
+{
+  "analysis_metadata": {
+    "analysis_id": "c8766e18",
+    "generated_at": "2025-08-18T15:16:32.751383",
+    "version": "crella_lens_v2.0",
+    "processing_time": "3.2s",
+    "h100_server": "143.198.44.252"
+  },
+  "pait_scoring": {
+    "overall_score": 2200,
+    "rating_classification": "Framework-Level Innovation",
+    "confidence_level": "85%",
+    "analysis_depth": "multi_agent_enhanced"
+  },
+  "comparison_analysis": {
+    "single_llm_claude": 1465,
+    "crella_multi_agent": 2200,
+    "improvement_factor": "+50%",
+    "superiority_areas": [
+      "Platform identification",
+      "Technical depth assessment",
+      "Strategic implications",
+      "Market analysis",
+      "Business model critique"
+    ]
+  },
+  "technical_breakdown": {
+    "platform_identification": [
+      "Suno",
+      "Udio",
+      "Amper Music"
+    ],
+    "technical_accuracy": "7/10",
+    "quality_reality_gap": "6/10",
+    "market_analysis": "8/10",
+    "strategic_depth": "8/10",
+    "originality": "6/10"
+  },
+  "extracted_content": {
+    "ocr_text": "AI music is blowing up. Just watch music producer Rick Beato be amazed... We're now in an age where anyone can take ideas they care about deeply, and emotionally amplify them for the masses. The door of music is wide open for a new generation of creators.",
+    "content_type": "social_media_analysis",
+    "platform_detected": "twitter_x",
+    "engagement_indicators": {
+      "views": "25K+",
+      "viral_potential": "medium_high"
+    }
+  },
+  "kathy_ops_analysis": "Multi-agent analysis: AI music democratization shows framework-level innovation with 2200 pAIt score. Platforms identified: Suno, Udio, Amper Music. Technical accuracy 7/10, strategic depth 8/10.",
+  "digital_fingerprint": {
+    "content_hash": "ecbc2c0ac659c807",
+    "analysis_hash": "2f8375d2a98f",
+    "privacy_mode": "vip_protected",
+    "tracking_bypass": true
+  },
+  "visual_elements": {
+    "score_comparison_chart": true,
+    "technical_breakdown_table": true,
+    "platform_logos": true,
+    "privacy_indicators": true,
+    "export_options": [
+      "PNG",
+      "PDF",
+      "JSON"
+    ]
+  },
+  "monetization_data": {
+    "analysis_tier": "enhanced_multi_agent",
+    "vip_features_unlocked": [
+      "Multi-agent comparison",
+      "Technical platform identification",
+      "Strategic depth analysis",
+      "Privacy protection",
+      "Export capabilities"
+    ],
+    "upgrade_value_proposition": "50% more accurate analysis vs single LLM"
+  }
+}

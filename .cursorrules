@@ -1,0 +1,129 @@
+# Crella-Lens .cursorrules
+# AI-Powered Visual Intelligence Platform with pAIt Scoring
+
+## Project Overview
+Crella-Lens is a sophisticated visual intelligence platform that transforms images into scored strategic insights with complete provenance tracking. Part of the larger Crellaverse ecosystem connecting to pAIt trading platform.
+
+## Core Architecture
+- **Frontend**: React + TypeScript + TailwindCSS
+- **Backend**: Python (Flask-based) + Ollama for local LLMs
+- **AI Orchestration**: Multi-agent system (Claire, Kathy, JellaRasa)
+- **Visual Processing**: Crella-Lens analysis with pAIt scoring
+- **Trading Integration**: Data flows to pAIt trading platform
+
+## Design System - "Orb Motifs Throughout"
+- **Aesthetic**: Crellaverse cathedral/library with floating orbs
+- **Animations**: Breathing effects (4s ease-in-out), gentle pulsing
+- **Colors**: Indigo (#4f46e5) → Purple (#7c3aed) → Teal (#0891b2) gradients
+- **Floating Elements**: Orbs as primary interaction metaphor
+- **Symmetrical Layout**: Claire (right), Private Vault (left)
+
+## AI Personalities & Roles
+
+### Claire - AiiQ Concierge & Orchestration Assistant
+- **Personality**: 22-year-old Stanford grad, professional but warm
+- **Style**: NO terms of endearment, use emojis naturally
+- **Backend**: Routes through Claude/OpenAI APIs (not local Ollama)
+- **Greeting**: "Hi, welcome! 👋 What brings you by today?"
+- **Role**: Social intelligence layer, multi-agent orchestration
+
+### Kathy-Ops
+- **Role**: Trading Strategy Orchestration Director on H100
+- **Learning**: Inherits social intelligence from Claire interactions
+- **Focus**: Heavy analysis, revenue generation, pAIt enhancement
+
+### JellaRasa
+- **Model**: mixtral:latest
+- **Role**: AI-to-AI mentorship target, behavioral scaffolding
+
+## pAIt Scoring System
+- **Range**: 1200-3000+ (chess-style rating system)
+- **Analogy**: Golf handicaps + chess grandmaster ratings
+- **Categories**: 
+  - 2400+: Framework-Level Innovation
+  - 2000+: Strategic Application 
+  - 1600+: Working Knowledge
+  - <1600: Learning Foundation
+
+## Code Style & Patterns
+
+### React Components
+- Use TypeScript interfaces for props
+- TailwindCSS for styling (prefer utility classes)
+- Responsive design: sm:, md:, lg:, xl: breakpoints
+- Dark mode support with `dark:` variants
+
+### Floating UI Elements
+- Fixed positioning for floating buttons
+- z-index: 40 for main elements, 50+ for overlays
+- Group hover patterns: `group` + `group-hover:opacity-100`
+- Breathing animation: `animation: breathe 4s ease-in-out infinite`
+
+### Authentication & Access
+- Demo passwords: "crella123" (unified for easy demos)
+- Three tiers: Guest, Member, Staff
+- VIP features: Multi-agent orchestration, enhanced privacy
+
+## File Organization
+```
+src/
+├── components/
+│   ├── FloatingVault.tsx       # Left floating orb with vault
+│   ├── IntelligentAssistant.tsx # Claire's multi-assistant interface
+│   └── [other components]
+├── styles/
+│   └── floating-vault.css      # Orb animations
+backend/
+├── claire_api_service.py       # Claire's API routing
+h100_deployment/
+├── enhanced_pait_cron.py       # H100 revenue optimization
+investor_demo/
+└── [Paul's demo materials]
+```
+
+## Key Business Context
+- **Revenue Focus**: H100 optimization for $106k+ monthly potential
+- **Privacy First**: Data sovereignty, no tracking, cryptographic proof
+- **Investor Ready**: Demos for Paul (Growth Fund analysis)
+- **VIP Monetization**: Tiered access with premium features
+
+## Development Guidelines
+
+### When Working on UI:
+1. Always consider mobile responsiveness
+2. Use orb motifs and breathing animations
+3. Maintain symmetrical floating element design
+4. Test hover states with proper group classes
+
+### When Working on AI Features:
+1. Claire routes to external APIs (Claude/OpenAI)
+2. Local Ollama for other assistants
+3. Log interactions for H100 Kathy training
+4. Maintain conversation context
+
+### When Adding New Features:
+1. Consider pAIt scoring integration
+2. Plan for VIP vs free tier access
+3. Ensure dark mode compatibility
+4. Document for investor presentations
+
+## Common Patterns
+- **Gradients**: `bg-gradient-to-br from-indigo-500 via-purple-600 to-teal-500`
+- **Shadows**: `shadow-2xl` for floating elements
+- **Transitions**: `transition-all duration-300` for smooth interactions
+- **Hover Text**: Pill-shaped with icons, consistent with Claire's style
+- **Breathing Orbs**: Multiple floating elements with staggered animations
+
+## Revenue Integration Points
+- Image uploads → pAIt scoring → Trading platform signals
+- Claire conversations → Kathy H100 learning → Enhanced analysis
+- VIP features → Premium positioning → Subscription revenue
+- Visual intelligence → Institutional-grade insights → Enterprise sales
+
+## Testing Considerations
+- Test floating elements at different screen sizes
+- Verify hover states work on touch devices
+- Ensure API connections handle failures gracefully
+- Validate pAIt score calculations
+
+Remember: We're building a "generational AI mentorship pipeline" with Claire as social intelligence and the broader system as strategic orchestration. Every element should feel like part of the living, breathing Crellaverse!

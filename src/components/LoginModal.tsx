@@ -44,7 +44,11 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-3">
-            <Shield className="h-6 w-6 text-crella-600" />
+            <img 
+              src="/lens_vault.png" 
+              alt="Vault" 
+              className="w-6 h-6 object-contain"
+            />
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">
               Private Vault Access
             </h2>
@@ -140,15 +144,11 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
 
           {/* Demo Codes */}
           <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Demo Access Codes:</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Demo Access Code:</p>
             <div className="space-y-1 text-xs">
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Member:</span>
-                <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">TRADER2024</code>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Staff:</span>
-                <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">CRELLA_ADMIN</code>
+                <span className="text-gray-600 dark:text-gray-400">Both Member & Staff:</span>
+                <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">crella123</code>
               </div>
             </div>
           </div>
