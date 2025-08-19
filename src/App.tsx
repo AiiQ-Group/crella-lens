@@ -13,7 +13,7 @@ import SessionTracker from './components/SessionTracker'
 import ImageMetadata from './components/ImageMetadata'
 import AnalyticsDashboard from './components/AnalyticsDashboard'
 import VisualPAItAnalysis from './components/VisualPAItAnalysis'
-import YouTubeAnalysisWorkflow from './components/YouTubeAnalysisWorkflow'
+import VisualIntelligenceWorkflow from './components/VisualIntelligenceWorkflow'
 // Using existing IntelligentAssistant (Ferrari Chat) instead
 import { AnalysisResult } from './types'
 
@@ -25,7 +25,7 @@ function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [isVIPUpload, setIsVIPUpload] = useState(false)
   const [showVisualAnalysis, setShowVisualAnalysis] = useState(false)
-  const [showYouTubeAnalysis, setShowYouTubeAnalysis] = useState(false)
+  const [showVisualIntelligence, setShowVisualIntelligence] = useState(false)
   
   // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -232,15 +232,15 @@ function App() {
                   <Sparkles className="h-5 w-5" />
                 </button>
 
-                {/* YouTube Analysis Toggle */}
+                {/* Visual Intelligence Toggle */}
                 <button
-                  onClick={() => setShowYouTubeAnalysis(!showYouTubeAnalysis)}
+                  onClick={() => setShowVisualIntelligence(!showVisualIntelligence)}
                   className={`p-2 rounded-lg transition-colors ${
-                    showYouTubeAnalysis 
+                    showVisualIntelligence 
                       ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' 
                       : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
-                  title="YouTube Shorts Analysis"
+                  title="Visual Intelligence Analysis"
                 >
                   <Eye className="h-5 w-5" />
                 </button>
@@ -263,8 +263,8 @@ function App() {
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {showYouTubeAnalysis ? (
-            <YouTubeAnalysisWorkflow 
+          {showVisualIntelligence ? (
+            <VisualIntelligenceWorkflow 
               isAuthenticated={isAuthenticated}
               userType={userType}
             />

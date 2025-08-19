@@ -38,17 +38,89 @@ interface AnalysisResult {
   isVIPAnalysis: boolean
 }
 
-interface YouTubeAnalysisWorkflowProps {
+interface VisualIntelligenceWorkflowProps {
   isAuthenticated: boolean
   userType: 'staff' | 'member' | null
 }
 
-export default function YouTubeAnalysisWorkflow({ isAuthenticated, userType }: YouTubeAnalysisWorkflowProps) {
+export default function VisualIntelligenceWorkflow({ isAuthenticated, userType }: VisualIntelligenceWorkflowProps) {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult[]>([])
   const [dragActive, setDragActive] = useState(false)
   const [showVIPUpgrade, setShowVIPUpgrade] = useState(false)
   const [compareMode, setCompareMode] = useState(false)
+  const [showAnalysisOptions, setShowAnalysisOptions] = useState(false)
+  const [selectedAnalysisType, setSelectedAnalysisType] = useState('')
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null)
+  const [showClaireChat, setShowClaireChat] = useState(false)
+
+  // Analysis Options Configuration
+  const analysisOptions = [
+    {
+      id: 'trading-strategy',
+      name: '📈 Trading Strategy Analysis',
+      description: 'Comprehensive pAIt scoring for trading strategies',
+      category: 'Financial',
+      vipOnly: false,
+      icon: TrendingUp
+    },
+    {
+      id: 'ai-detection', 
+      name: '🤖 AI Content Detection',
+      description: 'Detect if image is AI-generated with confidence scoring',
+      category: 'Authentication',
+      vipOnly: false,
+      icon: Cpu
+    },
+    {
+      id: 'hidden-analysis',
+      name: '🔍 Hidden Meaning Analysis',
+      description: 'Deep semantic analysis for subtle patterns and meanings',
+      category: 'Intelligence',
+      vipOnly: true,
+      icon: Search
+    },
+    {
+      id: 'data-accuracy',
+      name: '✅ Data Accuracy Verification',
+      description: 'Cross-reference and validate information accuracy',
+      category: 'Verification',
+      vipOnly: false,
+      icon: Shield
+    },
+    {
+      id: 'privacy-encrypt',
+      name: '🔐 Privacy & Encryption Analysis',
+      description: 'Secure analysis with data encryption and private sharing',
+      category: 'Security',
+      vipOnly: true,
+      icon: Lock
+    },
+    {
+      id: 'document-extraction',
+      name: '📄 Document Intelligence',
+      description: 'Extract and structure data from documents/screenshots',
+      category: 'Processing',
+      vipOnly: false,
+      icon: FileText
+    },
+    {
+      id: 'forensic-analysis',
+      name: '🔬 Digital Forensics',
+      description: 'Metadata analysis, authenticity verification, provenance tracking',
+      category: 'Forensics',
+      vipOnly: true,
+      icon: Fingerprint
+    },
+    {
+      id: 'custom-analysis',
+      name: '💭 Custom Analysis (Chat with Claire)',
+      description: 'Describe your specific needs to Claire for tailored analysis',
+      category: 'Custom',
+      vipOnly: false,
+      icon: MessageCircle
+    }
+  ]
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault()
@@ -67,11 +139,11 @@ export default function YouTubeAnalysisWorkflow({ isAuthenticated, userType }: Y
     
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0]
-      await analyzeYouTubeShort(file)
+      await analyzeImage(file)
     }
   }
 
-  const analyzeYouTubeShort = async (file: File) => {
+  const analyzeImage = async (file: File) => {
     setIsAnalyzing(true)
     
     // Simulate AI analysis process
@@ -120,7 +192,7 @@ export default function YouTubeAnalysisWorkflow({ isAuthenticated, userType }: Y
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      analyzeYouTubeShort(file)
+      analyzeImage(file)
     }
   }
 
@@ -344,7 +416,7 @@ export default function YouTubeAnalysisWorkflow({ isAuthenticated, userType }: Y
           </div>
         </div>
         <h1 className="text-2xl font-bold text-white mb-2">CLAIRE</h1>
-        <p className="text-gray-300">Drag and drop your image to begin analysis...</p>
+        <p className="text-gray-300">Visual Intelligence Platform - Upload any image for comprehensive analysis</p>
       </div>
 
       {/* Controls */}
