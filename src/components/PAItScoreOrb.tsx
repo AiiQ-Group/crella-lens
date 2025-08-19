@@ -9,9 +9,9 @@ export default function PAItScoreOrb({ score, size = 'medium' }: PAItScoreOrbPro
   // Get the appropriate pAIt orb image based on score
   const getPAItImage = (score: number | 'UNR') => {
     if (score === 'UNR' || score === 0 || score === -1) return '/pAIt/pAIt_logoGrey.png' // UNR - Unrated
-    if (typeof score === 'number' && score >= 800) return '/pAIt/pAIt-logoGreen.png'
-    if (typeof score === 'number' && score >= 600) return '/pAIt/pAIt_logoYellow.png'
-    return '/pAIt/pAIt_logoRed.png'
+    if (typeof score === 'number' && score >= 800) return '/pAIt/pAIt-logoGreen.png' // Green uses dash
+    if (typeof score === 'number' && score >= 600) return '/pAIt/pAIt_logoYellow.png' // Yellow uses underscore
+    return '/pAIt/pAIt_logoRed.png' // Red uses underscore
   }
 
   // Get size classes for different orb sizes
@@ -43,7 +43,7 @@ export default function PAItScoreOrb({ score, size = 'medium' }: PAItScoreOrbPro
       {/* pAIt Orb Image */}
       <img 
         src={imageSrc} 
-        alt={`pAIt Rating ${score}`}
+        alt={`pAIt™ Rating ${score}`}
         className="w-full h-full object-contain"
         style={{
           filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3))'
@@ -88,7 +88,7 @@ export function PAItScoreInline({ score }: { score: number }) {
   
   return (
     <span className={`inline-flex items-center space-x-1 ${colors} font-bold`}>
-      <span className="text-xs">pAIt</span>
+      <span className="text-xs">pAIt™</span>
       <span>{score}</span>
     </span>
   )

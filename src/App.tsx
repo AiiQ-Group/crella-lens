@@ -159,16 +159,10 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen transition-colors ${isDark ? 'dark' : ''}`}>
+    <div className={`min-h-screen bg-transparent transition-colors ${isDark ? 'dark' : ''}`}>
       <div 
-        className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-        style={{
-          backgroundImage: isDark ? 'url(/crella_datacenter.svg)' : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed'
-        }}
+        className="min-h-screen bg-transparent text-gray-900 dark:text-gray-100"
+
       >
         {/* Header */}
         <header className="border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm relative">
@@ -215,6 +209,23 @@ function App() {
                     Guest Access
                   </div>
                 )}
+              </div>
+
+              {/* Thinking Orb - Center Position */}
+              <div className="flex items-center">
+                <div className="relative">
+                  <img 
+                    src="/thinking_orb.gif" 
+                    alt="Thinking Orb"
+                    className="w-8 h-8 transition-all duration-500 hover:scale-110"
+                    style={{
+                      filter: 'drop-shadow(0 0 15px rgba(147, 51, 234, 0.6))',
+                      animation: 'float 6s ease-in-out infinite'
+                    }}
+                  />
+                  <div className="absolute inset-0 rounded-full border border-purple-400/30 animate-ping"></div>
+                  <div className="absolute -inset-1 rounded-full border border-blue-400/20 animate-pulse"></div>
+                </div>
               </div>
 
               {/* Action Controls */}
@@ -317,6 +328,59 @@ function App() {
         <ServerLogger userType={userType} />
 
         {/* Existing Ferrari Chat (IntelligentAssistant) is now persistent for everyone! */}
+
+        {/* Corporate Footer */}
+        <footer className="bg-gray-900/95 backdrop-blur-sm border-t border-gray-800 mt-auto">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            {/* AiiQ Logo and Brand Header */}
+            <div className="text-center mb-6">
+              <div className="flex justify-center items-center mb-3">
+                <img 
+                  src="/logo-icon-main.png" 
+                  alt="AiiQ Group" 
+                  className="w-8 h-8 mr-3 opacity-80"
+                />
+                <h3 className="text-lg font-semibold text-gray-300">AiiQ Group</h3>
+              </div>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                <span className="font-medium text-gray-300">pAIt™ is founded and created by AiiQ Group and its core LLM model partners</span>
+              </p>
+              <div className="mt-2 flex flex-wrap justify-center items-center gap-4 text-xs text-gray-500">
+                <span>Crella Lens</span>
+                <span>•</span>
+                <span>Crella Video</span>
+                <span>•</span>
+                <span>Crella Vault</span>
+                <span>•</span>
+                <span>Crella Trading</span>
+                <span>•</span>
+                <span>AiiQ.cloud</span>
+                <span>•</span>
+                <span>AiiQ.dev</span>
+              </div>
+            </div>
+
+            {/* Bottom Row - Locations and Contact */}
+            <div className="text-center border-t border-gray-800 pt-4">
+              <div className="flex flex-wrap justify-center items-center gap-3 text-xs text-gray-500">
+                <span><strong className="text-gray-400">Global Headquarters:</strong> San Antonio, TX</span>
+                <span>•</span>
+                <span><strong className="text-gray-400">Development:</strong> Cebu, Philippines</span>
+                <span>•</span>
+                <span><strong className="text-gray-400">Marketing:</strong> Las Vegas, NV</span>
+                <span>•</span>
+                <span><strong className="text-gray-400">Technology:</strong> Toronto, Canada</span>
+                <span>•</span>
+                <span><strong className="text-gray-400">Data Control:</strong> New York, NY</span>
+              </div>
+              <div className="mt-2">
+                <a href="mailto:hq@aiiq.group" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+                  hq@aiiq.group
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   )
