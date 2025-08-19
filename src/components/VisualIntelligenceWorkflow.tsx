@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Upload, BarChart3, Sparkles } from 'lucide-react'
+import { IntelligentFlowGuide } from './IntelligentFlowGuide'
 
 interface VideoMetadata {
   processTime: string
@@ -615,6 +616,27 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                 </p>
               </div>
             </div>
+          )}
+
+          {/* Intelligent Flow Suggestions */}
+          {uploadedFile && (
+            <IntelligentFlowGuide
+              uploadedImage={uploadedFile}
+              analysisResult={results[0]}
+              userType={userType}
+              onActionClick={(actionId) => {
+                console.log('Flow action clicked:', actionId)
+                // Handle intelligent suggestions here based on actionId
+                if (actionId === 'trading-analysis') {
+                  // Trigger advanced trading analysis
+                } else if (actionId === 'authenticity-check') {
+                  // Focus on authenticity verification
+                } else if (actionId === 'vault-storage') {
+                  // Trigger vault save action
+                }
+              }}
+              className="mb-6"
+            />
           )}
 
           {/* Analysis Progress */}

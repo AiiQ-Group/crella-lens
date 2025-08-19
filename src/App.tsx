@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Moon, Sun, Eye, Shield, LogOut, Sparkles } from 'lucide-react'
+import { Moon, Sun, Eye, Shield, LogOut, Sparkles, Crown, TrendingUp, Home, X } from 'lucide-react'
 import VIPUploader, { generateTraderAnalysis } from './components/VIPUploader'
 import ImagePreview from './components/ImagePreview'
 import EnhancedAnalysisResults from './components/EnhancedAnalysisResults'
@@ -14,6 +14,14 @@ import ImageMetadata from './components/ImageMetadata'
 import AnalyticsDashboard from './components/AnalyticsDashboard'
 import VisualPAItAnalysis from './components/VisualPAItAnalysis'
 import VisualIntelligenceWorkflow from './components/VisualIntelligenceWorkflow'
+import { SmartOnboardingModal, useOnboarding } from './components/SmartOnboardingModal'
+import { ClaireGuidanceSystem, useClaireGuidance } from './components/ClaireGuidanceSystem'
+import { VIPWalkthroughSystem, useVIPWalkthrough } from './components/VIPWalkthroughSystem'
+import ClaireChat from './components/ClaireChat'
+import { TokenMeter } from './components/TokenMeterSystem'
+import VIPUpgradeModal from './components/VIPUpgradeModal'
+import VisualAgentSelector from './components/VisualAgentSelector'
+import RealEstateVertical from './components/RealEstateVertical'
 // Using existing IntelligentAssistant (Ferrari Chat) instead
 import { AnalysisResult } from './types'
 
@@ -32,6 +40,26 @@ function App() {
   const [userType, setUserType] = useState<'staff' | 'member' | null>(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [savedCount, setSavedCount] = useState(0)
+  
+  // Onboarding system
+  const { showOnboarding, closeOnboarding } = useOnboarding()
+  
+  // Claire's guidance system
+  const { showGuidance, dismissGuidance } = useClaireGuidance()
+  
+  // VIP walkthrough system
+  const { showWalkthrough, startWalkthrough, closeWalkthrough } = useVIPWalkthrough()
+  
+  // Claire Chat system
+  const [showClaireChat, setShowClaireChat] = useState(false)
+  
+  // VIP upgrade system
+  const [showVIPUpgrade, setShowVIPUpgrade] = useState(false)
+  const [showTokenMeter, setShowTokenMeter] = useState(false)
+  
+  // Agent orchestration system
+  const [activeAgents, setActiveAgents] = useState<string[]>([])
+  const [showRealEstate, setShowRealEstate] = useState(false)
 
   const toggleDarkMode = () => {
     setIsDark(!isDark)
@@ -256,6 +284,23 @@ function App() {
                   <Eye className="h-5 w-5" />
                 </button>
 
+                {/* Real Estate Beta Toggle */}
+                <button
+                  onClick={() => setShowRealEstate(!showRealEstate)}
+                  className={`p-2 rounded-lg transition-colors group relative ${
+                    showRealEstate 
+                      ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-500/30' 
+                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
+                  title="Austin Real Estate Beta"
+                >
+                  <Home className="h-5 w-5" />
+                  {/* Beta Badge */}
+                  <div className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs px-1 rounded-full" style={{ fontSize: '8px' }}>
+                    β
+                  </div>
+                </button>
+
                 {/* Dark Mode Toggle */}
                 <button
                   onClick={toggleDarkMode}
@@ -266,6 +311,56 @@ function App() {
                   ) : (
                     <Moon className="h-5 w-5 text-gray-600" />
                   )}
+                </button>
+
+                {/* Claire Chat Button */}
+                <button
+                  onClick={() => setShowClaireChat(!showClaireChat)}
+                  className={`p-2 rounded-lg transition-colors group relative ${
+                    showClaireChat 
+                      ? 'bg-purple-500/20 border border-purple-500/30' 
+                      : 'bg-purple-100 dark:bg-purple-900/30 hover:bg-purple-200 dark:hover:bg-purple-900/50'
+                  }`}
+                  title="Claire AI Concierge"
+                >
+                  <Sparkles className={`h-5 w-5 ${showClaireChat ? 'text-purple-400' : 'text-purple-600 dark:text-purple-400'} group-hover:animate-pulse`} />
+                  {/* Active indicator */}
+                  {showClaireChat && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  )}
+                </button>
+
+                {/* Token Meter Button */}
+                <button
+                  onClick={() => setShowTokenMeter(!showTokenMeter)}
+                  className={`p-2 rounded-lg transition-colors group relative ${
+                    showTokenMeter 
+                      ? 'bg-green-500/20 border border-green-500/30' 
+                      : 'bg-green-100 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-900/50'
+                  }`}
+                  title="Usage Meter"
+                >
+                  <TrendingUp className={`h-5 w-5 ${showTokenMeter ? 'text-green-400' : 'text-green-600 dark:text-green-400'} group-hover:animate-pulse`} />
+                </button>
+
+                {/* VIP Upgrade Button - Show for guests */}
+                {userType === null && (
+                  <button
+                    onClick={() => setShowVIPUpgrade(true)}
+                    className="p-2 rounded-lg bg-gradient-to-r from-yellow-500/20 to-orange-600/20 border border-yellow-500/30 hover:from-yellow-500/30 hover:to-orange-600/30 transition-all group"
+                    title="Upgrade to VIP"
+                  >
+                    <Crown className="h-5 w-5 text-yellow-400 group-hover:animate-pulse" />
+                  </button>
+                )}
+
+                {/* Help & Guide Button */}
+                <button
+                  onClick={startWalkthrough}
+                  className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors group"
+                  title="Help & Walkthrough"
+                >
+                  <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover:animate-pulse" />
                 </button>
               </div>
             </div>
@@ -290,6 +385,25 @@ function App() {
           isOpen={showLoginModal}
           onClose={() => setShowLoginModal(false)}
           onLogin={handleLogin}
+        />
+
+        {/* Smart Onboarding Modal */}
+        <SmartOnboardingModal
+          isOpen={showOnboarding}
+          onClose={closeOnboarding}
+          userType={userType || 'guest'}
+        />
+
+        {/* VIP Walkthrough System */}
+        <VIPWalkthroughSystem
+          isOpen={showWalkthrough}
+          onClose={closeWalkthrough}
+          userType={userType || 'guest'}
+          onUpgrade={() => {
+            // Handle VIP upgrade
+            console.log('VIP upgrade clicked')
+            setShowLoginModal(true)
+          }}
         />
 
         {/* Floating Private Vault */}
@@ -328,6 +442,100 @@ function App() {
         <ServerLogger userType={userType} />
 
         {/* Existing Ferrari Chat (IntelligentAssistant) is now persistent for everyone! */}
+
+        {/* Claire's Contextual Guidance System */}
+        <ClaireGuidanceSystem
+          userType={userType || 'guest'}
+          hasUploadedImage={uploadedImage !== null}
+          hasAnalysis={analysisResult !== null}
+          isVisible={showGuidance && !showOnboarding}
+          onClose={dismissGuidance}
+        />
+
+        {/* Claire AI Concierge Chat - Mobile-First */}
+        <ClaireChat
+          userType={userType || 'guest'}
+          isVisible={showClaireChat}
+          onToggle={() => setShowClaireChat(!showClaireChat)}
+          className={`${showClaireChat ? 'block' : 'hidden'} md:right-4 md:bottom-4 md:max-w-md`}
+        />
+
+        {/* Token Meter Panel */}
+        {showTokenMeter && (
+          <div className="fixed top-20 right-4 z-40 w-80">
+            <TokenMeter
+              usage={{
+                totalTokens: userType === 'staff' ? 999999 : userType === 'member' ? 10000 : 1000,
+                tokensUsed: 150,
+                tokensRemaining: userType === 'staff' ? 999849 : userType === 'member' ? 9850 : 850,
+                dailyLimit: userType === 'staff' ? 999999 : userType === 'member' ? 500 : 50,
+                dailyUsed: 25,
+                agentCallsToday: 3,
+                lastReset: new Date(),
+                tier: userType === 'staff' ? 'staff' : userType === 'member' ? 'vip' : 'free'
+              }}
+              onUpgrade={() => setShowVIPUpgrade(true)}
+              showUpgrade={userType !== 'staff' && userType !== 'member'}
+            />
+          </div>
+        )}
+
+        {/* Visual Agent Selector - Floating Orbs */}
+        <VisualAgentSelector
+          userType={userType || 'guest'}
+          activeAgents={activeAgents}
+          onAgentClick={(agentId) => {
+            console.log('Agent clicked:', agentId)
+            // Add agent to active list
+            if (!activeAgents.includes(agentId)) {
+              setActiveAgents(prev => [...prev, agentId])
+            }
+          }}
+          onAgentRate={(agentId, rating) => {
+            console.log('Agent rated:', agentId, rating)
+          }}
+          isVisible={showVisualIntelligence || showRealEstate}
+        />
+
+        {/* Real Estate Beta Panel */}
+        {showRealEstate && (
+          <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl border border-slate-700 shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+              {/* Close Button */}
+              <button
+                onClick={() => setShowRealEstate(false)}
+                className="absolute top-4 right-4 z-10 text-gray-400 hover:text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
+              
+              <div className="p-6">
+                <RealEstateVertical
+                  uploadedImage={uploadedImage}
+                  userType={userType || 'guest'}
+                  onAnalysisComplete={(analysis) => {
+                    console.log('Real estate analysis complete:', analysis)
+                    // Could integrate with vault or other systems
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* VIP Upgrade Modal */}
+        <VIPUpgradeModal
+          isOpen={showVIPUpgrade}
+          onClose={() => setShowVIPUpgrade(false)}
+          currentTier={userType === 'staff' ? 'staff' : userType === 'member' ? 'vip' : 'free'}
+          onUpgradeSuccess={() => {
+            // Handle VIP upgrade success
+            console.log('🎉 VIP upgrade successful!')
+            // In a real app, you would update user state here
+            // setUserType('member')
+            alert('Welcome to VIP! Please refresh the page to see your new features.')
+          }}
+        />
 
         {/* Corporate Footer */}
         <footer className="bg-gray-900/95 backdrop-blur-sm border-t border-gray-800 mt-auto">

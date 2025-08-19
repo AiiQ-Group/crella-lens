@@ -1,0 +1,30 @@
+/* Crella Brand Font Styling */
+.crella-font {
+  font-family: "Segoe Script", cursive, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+/* Ensure first letter is capitalized */
+.crella-font::first-letter {
+  text-transform: uppercase;
+}
+
+/* Add subtle glow effect for brand emphasis */
+.crella-font {
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+/* Responsive font sizing */
+@media (max-width: 768px) {
+  .crella-font {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  .crella-font {
+    font-size: 0.8em;
+  }
+}
