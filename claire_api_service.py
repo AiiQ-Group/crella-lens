@@ -269,4 +269,4 @@ if __name__ == '__main__':
     print("✅ 22-year-old professional personality")
     print("🚀 Claire ready for conversations!")
     
-    app.run(host='0.0.0.0', port=5002, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

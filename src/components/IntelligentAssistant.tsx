@@ -161,12 +161,36 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
 
     let assistantResponse: string
 
-    // DEMO VERSION: Simple local responses for ALL assistants including Claire
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
+    // Use API for Claire, local responses for other assistants
     if (currentAssistant.id === 'claire') {
-      assistantResponse = getClairePersonalityResponse(questionContent, analysisResult)
+      try {
+        // Call Claire API service (Claude/OpenAI)
+        const response = await fetch('http://localhost:5001/api/claire/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: questionContent,
+            context: messages.length > 0 ? messages.slice(-2) : null,
+            provider: 'claude' // Use Claude by default, can switch to 'openai'
+          })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          assistantResponse = data.response
+          console.log(`✨ Claire responded via ${data.provider} API`)
+        } else {
+          throw new Error('API request failed')
+        }
+      } catch (error) {
+        console.error('Claire API error:', error)
+        assistantResponse = getClairePersonalityResponse(questionContent, analysisResult)
+      }
     } else {
+      // Use local responses for other assistants
+      await new Promise(resolve => setTimeout(resolve, 1500))
       assistantResponse = generateContextualResponse(questionContent, currentAssistant, analysisResult, userType)
     }
 
