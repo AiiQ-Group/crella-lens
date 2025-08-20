@@ -29,7 +29,7 @@ interface AgentStatus {
 }
 
 export function AnalyzeScreen({ appState, updateAppState }: AnalyzeScreenProps) {
-  const [analysisPhase, setAnalysisPhase] = useState<'starting' | 'claire' | 'orchestration' | 'agents' | 'complete'>('starting')
+  const [analysisPhase, setAnalysisPhase] = useState<'ready' | 'claire' | 'orchestration' | 'agents' | 'complete'>('ready')
   const [agents, setAgents] = useState<AgentStatus[]>([
     { id: 'claire', name: 'Claire', status: 'idle', progress: 0 },
     { id: 'claude', name: 'Claude', status: 'idle', progress: 0 },
@@ -38,47 +38,34 @@ export function AnalyzeScreen({ appState, updateAppState }: AnalyzeScreenProps) 
     { id: 'kathy', name: 'Kathy', status: 'idle', progress: 0 }
   ])
   const [claireMessage, setClaireMessage] = useState('')
-  const [showPAItRequest, setShowPAItRequest] = useState(false)
-  const [paitRequested, setPaitRequested] = useState(false)
+  const [analysisStarted, setAnalysisStarted] = useState(false)
+  const [isReady, setIsReady] = useState(false)
   const navigate = useNavigate()
 
-  // Simulate analysis flow
+  // Setup Claire's initial message based on selected intent
   useEffect(() => {
-    const runAnalysis = async () => {
-      // Phase 1: Claire introduction
-      setAnalysisPhase('claire')
-      setClaireMessage("Hi! 👋 I can see you've uploaded some interesting images. Let me take a quick look and provide initial insights.")
+    if (appState.selectedIntent && appState.uploadedImages.length > 0) {
+      const intentMessages = {
+        'strategy-evaluation': "Perfect! I see you want to evaluate the trading strategy in your image. I'll coordinate with JBot and Claudia to give you a comprehensive analysis with risk assessment and compliance review.",
+        'data-accuracy': "Excellent choice! I'll have Kathy and Claudia examine your image for authenticity, data integrity, and any signs of manipulation or inconsistencies.",
+        'compliance-review': "Great! I'll work with Claudia and JBot to review all legal requirements, disclosures, and regulatory compliance aspects of what you've shared.",
+        'compare-previous': "Interesting! I'll pull similar analyses from your vault and have all our specialists provide a comparative benchmark against your historical data.",
+        'exploratory': "Wonderful! Since you're exploring, I'll coordinate with the full team to provide comprehensive insights and guide you through what we discover together."
+      }
       
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const message = intentMessages[appState.selectedIntent.id as keyof typeof intentMessages] || 
+        "I'm ready to analyze your image with the team! Click 'Run Analysis' when you're ready to begin."
       
-      setAgents(prev => prev.map(agent => 
-        agent.id === 'claire' 
-          ? { ...agent, status: 'active', progress: 50 }
-          : agent
-      ))
-      
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      setClaireMessage("I've completed my initial analysis! These images show some fascinating patterns. Would you like me to coordinate with my specialist team for deeper insights?")
-      
-      setAgents(prev => prev.map(agent => 
-        agent.id === 'claire' 
-          ? { ...agent, status: 'complete', progress: 100 }
-          : agent
-      ))
-      
-      setShowPAItRequest(true)
+      setClaireMessage(message)
+      setIsReady(true)
     }
+  }, [appState.selectedIntent, appState.uploadedImages])
 
-    if (appState.uploadedImages.length > 0) {
-      runAnalysis()
-    }
-  }, [appState.uploadedImages])
-
-  // Handle pAIt scoring request
-  const handlePAItRequest = async () => {
-    setPaitRequested(true)
-    setShowPAItRequest(false)
+  // Handle analysis start
+  const handleRunAnalysis = async () => {
+    if (!appState.selectedIntent) return
+    
+    setAnalysisStarted(true)
     setAnalysisPhase('orchestration')
     
     setClaireMessage("Perfect! I'm bringing in the specialists. Claude is analyzing your request to determine which agents we need...")
@@ -204,10 +191,11 @@ export function AnalyzeScreen({ appState, updateAppState }: AnalyzeScreenProps) 
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            AI Analysis in Progress
+            {analysisStarted ? 'AI Analysis in Progress' : 'Ready to Analyze'}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            {appState.uploadedImages.length} image{appState.uploadedImages.length !== 1 ? 's' : ''} being analyzed
+            {appState.uploadedImages.length} image{appState.uploadedImages.length !== 1 ? 's' : ''} 
+            {appState.selectedIntent ? ` • ${appState.selectedIntent.title}` : ' uploaded'}
           </p>
         </motion.div>
 
@@ -238,36 +226,43 @@ export function AnalyzeScreen({ appState, updateAppState }: AnalyzeScreenProps) 
           </div>
         </motion.div>
 
-        {/* pAIt Request Modal */}
-        {showPAItRequest && (
+        {/* Selected Intent & Run Analysis */}
+        {appState.selectedIntent && isReady && !analysisStarted && (
           <motion.div
-            className="mb-8 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-800 rounded-2xl p-6"
+            className="mb-8 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200 dark:border-purple-800 rounded-2xl p-6"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
           >
             <div className="text-center">
-              <Sparkles className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                Request pAIt™ Scoring?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                This will activate advanced multi-agent review and analysis with comprehensive pAIt™ intelligence scoring.
-              </p>
-              <div className="flex space-x-3">
-                <button
-                  onClick={handlePAItRequest}
-                  className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  Activate pAIt™
-                </button>
-                <button
-                  onClick={() => setAnalysisPhase('complete')}
-                  className="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold py-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                >
-                  Skip for Now
-                </button>
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+                <Sparkles className="w-6 h-6" />
               </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Analysis Focus: {appState.selectedIntent.title}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                {appState.selectedIntent.description}
+              </p>
+              <div className="flex items-center justify-center space-x-2 mb-6">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Agents:</span>
+                {appState.selectedIntent.agents.map((agent) => (
+                  <span
+                    key={agent}
+                    className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-2 py-1 rounded-full"
+                  >
+                    {agent}
+                  </span>
+                ))}
+              </div>
+              <button
+                onClick={handleRunAnalysis}
+                className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+              >
+                <Sparkles className="w-5 h-5" />
+                <span>Run Analysis</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
             </div>
           </motion.div>
         )}

@@ -12,6 +12,7 @@ import {
   Sparkles
 } from 'lucide-react'
 import { AppState } from '../MobileRouter'
+import { IntentPromptModal } from '../IntentPromptModal'
 
 interface UploadScreenProps {
   appState: AppState
@@ -23,6 +24,7 @@ export function UploadScreen({ appState, updateAppState }: UploadScreenProps) {
   const [selectedImages, setSelectedImages] = useState<File[]>([])
   const [comments, setComments] = useState('')
   const [isUploading, setIsUploading] = useState(false)
+  const [showIntentModal, setShowIntentModal] = useState(false)
   const navigate = useNavigate()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -71,7 +73,7 @@ export function UploadScreen({ appState, updateAppState }: UploadScreenProps) {
     fileInputRef.current?.click()
   }
 
-  // Handle upload and analysis
+  // Handle upload and show intent modal
   const handleUploadAndAnalyze = async () => {
     if (selectedImages.length === 0) return
 
@@ -80,6 +82,8 @@ export function UploadScreen({ appState, updateAppState }: UploadScreenProps) {
     // Update app state with uploaded images
     updateAppState({
       uploadedImages: selectedImages,
+      waitingForIntent: true,
+      selectedIntent: null,
       user: {
         ...appState.user,
         tokens: Math.max(0, appState.user.tokens - selectedImages.length),
@@ -88,10 +92,36 @@ export function UploadScreen({ appState, updateAppState }: UploadScreenProps) {
     })
 
     // Simulate upload processing
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 1500))
 
-    // Navigate to analyze screen
+    setIsUploading(false)
+    
+    // Show intent modal instead of navigating immediately
+    setShowIntentModal(true)
+  }
+
+  // Handle intent selection
+  const handleIntentSelected = (intent: any) => {
+    updateAppState({
+      selectedIntent: intent,
+      waitingForIntent: false
+    })
+    
+    setShowIntentModal(false)
+    
+    // Now navigate to analyze screen with intent selected
     navigate('/analyze')
+  }
+
+  // Handle modal close
+  const handleModalClose = () => {
+    setShowIntentModal(false)
+    // Reset upload state if user cancels
+    updateAppState({
+      waitingForIntent: false,
+      uploadedImages: [],
+      selectedIntent: null
+    })
   }
 
   const canUpload = selectedImages.length > 0 && !isUploading
@@ -321,6 +351,17 @@ export function UploadScreen({ appState, updateAppState }: UploadScreenProps) {
           </p>
         </motion.div>
       </div>
+
+      {/* Intent Prompt Modal */}
+      <IntentPromptModal
+        isOpen={showIntentModal}
+        onClose={handleModalClose}
+        uploadedImage={selectedImages.length > 0 ? {
+          url: URL.createObjectURL(selectedImages[0]),
+          name: selectedImages[0].name
+        } : undefined}
+        onIntentSelected={handleIntentSelected}
+      />
     </div>
   )
 }

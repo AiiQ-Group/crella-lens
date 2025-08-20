@@ -161,36 +161,12 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
 
     let assistantResponse: string
 
-    // Use API for Claire, local responses for other assistants
+    // DEMO VERSION: Simple local responses for ALL assistants including Claire
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    
     if (currentAssistant.id === 'claire') {
-      try {
-        // Call Claire API service (Claude/OpenAI)
-        const response = await fetch('http://localhost:5001/api/claire/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            message: questionContent,
-            context: messages.length > 0 ? messages.slice(-2) : null,
-            provider: 'claude' // Use Claude by default, can switch to 'openai'
-          })
-        })
-
-        if (response.ok) {
-          const data = await response.json()
-          assistantResponse = data.response
-          console.log(`✨ Claire responded via ${data.provider} API`)
-        } else {
-          throw new Error('API request failed')
-        }
-      } catch (error) {
-        console.error('Claire API error:', error)
-        assistantResponse = "I'm having trouble connecting right now. Please try again! 😊"
-      }
+      assistantResponse = getClairePersonalityResponse(questionContent, analysisResult)
     } else {
-      // Use local responses for other assistants
-      await new Promise(resolve => setTimeout(resolve, 1500))
       assistantResponse = generateContextualResponse(questionContent, currentAssistant, analysisResult, userType)
     }
 
@@ -252,48 +228,46 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
 
   return (
     <>
-      {/* Dynamic Assistant Button */}
-      {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-16 h-16 sm:w-20 sm:h-20 text-white rounded-full shadow-2xl transition-all duration-500 flex items-center justify-center z-40 group animate-pulse hover:animate-none"
-          style={{
-            background: `linear-gradient(135deg, ${currentAssistant.primaryColor}, ${currentAssistant.secondaryColor})`,
-            boxShadow: `0 20px 40px ${currentAssistant.primaryColor}30`
-          }}
+      {/* Claire's Elegant Thumbnail - Like Claudia */}
+      <div className="fixed top-20 right-4 z-[9999] group">
+        {/* Thumbnail Profile */}
+        <div 
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 relative"
         >
-          <div className="relative">
-            <img 
-              src={currentAssistant.image} 
-              alt={currentAssistant.name}
-              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-4 border-white/20"
-            />
-            <div 
-              className="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 border-3 border-white rounded-full flex items-center justify-center"
-              style={{ background: `linear-gradient(to right, ${currentAssistant.accentColor}, ${currentAssistant.secondaryColor})` }}
-            >
-              {currentAssistant.icon}
-            </div>
-          </div>
+          <img 
+            src={currentAssistant.image} 
+            alt={currentAssistant.name}
+            className="w-full h-full rounded-full object-cover border-2 border-white shadow-sm"
+          />
           <div 
-            className="absolute -top-16 right-0 text-white text-sm px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg"
-            style={{ background: `linear-gradient(to right, ${currentAssistant.primaryColor}, ${currentAssistant.secondaryColor})` }}
+            className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center border-2 border-white"
+            style={{ background: currentAssistant.accentColor }}
           >
-            <div className="flex items-center space-x-2">
-              <Sparkles className="w-4 h-4" />
-              <span>Chat with {currentAssistant.name}</span>
-              <Smile className="w-4 h-4" />
-            </div>
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
           </div>
-        </button>
-      )}
+        </div>
 
-      {/* Dynamic Chat Window */}
+        {/* Hover Greeting - Clickable */}
+        <div 
+          onClick={() => setIsOpen(!isOpen)}
+          className="absolute -left-48 top-0 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg shadow-lg border opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 whitespace-nowrap"
+        >
+          <div className="flex items-center space-x-2">
+            <Sparkles className="w-4 h-4 text-purple-500" />
+            <span className="text-sm font-medium">Hi, I'm {currentAssistant.name}!</span>
+          </div>
+          {/* Speech bubble pointer */}
+          <div className="absolute top-3 -right-2 w-0 h-0 border-l-8 border-l-white dark:border-l-gray-800 border-t-4 border-t-transparent border-b-4 border-b-transparent"></div>
+        </div>
+      </div>
+
+      {/* Elegant Chat Expansion - Like Claudia */}
       {isOpen && (
-        <div className="fixed bottom-2 right-2 sm:bottom-6 sm:right-6 w-[95vw] sm:w-[28rem] max-w-[28rem] h-[80vh] sm:h-[36rem] bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl rounded-2xl shadow-2xl border z-50 flex flex-col overflow-hidden">
+        <div className="fixed top-20 right-4 w-[90vw] sm:w-80 max-w-80 h-[70vh] sm:h-96 bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl rounded-2xl shadow-2xl border z-[9999] flex flex-col overflow-hidden animate-in slide-in-from-top-2 duration-300">
           {/* Dynamic Header */}
           <div 
-            className="flex items-center justify-between p-4 sm:p-6 text-white relative overflow-hidden"
+            className="flex items-center justify-between p-3 text-white relative overflow-hidden"
             style={gradientStyle}
           >
             {/* Background Pattern */}
@@ -308,22 +282,21 @@ export default function IntelligentAssistant({ isAuthenticated, userType, analys
                 <img 
                   src={currentAssistant.image}
                   alt={currentAssistant.name}
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white/30 shadow-lg"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-white/30 shadow-lg"
                 />
                 <div 
-                  className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 border-3 border-white rounded-full flex items-center justify-center"
+                  className="absolute -bottom-1 -right-1 w-5 h-5 border-2 border-white rounded-full flex items-center justify-center"
                   style={{ background: `linear-gradient(to right, ${currentAssistant.accentColor}, ${currentAssistant.secondaryColor})` }}
                 >
                   {currentAssistant.icon}
                 </div>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-semibold text-white drop-shadow-lg">{currentAssistant.name}</h3>
+                <h3 className="text-sm font-semibold text-white drop-shadow-lg">{currentAssistant.name}</h3>
                 <div className="flex items-center space-x-2 text-white/90">
-                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 animate-pulse" />
-                  <span className="text-xs sm:text-sm font-medium">{currentAssistant.role}</span>
+                  <Sparkles className="h-3 w-3 animate-pulse" />
+                  <span className="text-xs font-medium">AI Concierge</span>
                 </div>
-                <p className="text-xs text-white/75 mt-1 hidden sm:block">Specialized AI Assistant</p>
               </div>
             </div>
             <button

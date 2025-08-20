@@ -1,12 +1,22 @@
 export interface AnalysisResult {
+  id: string
+  timestamp: Date
+  images: any[]
+  agents: Array<{
+    id: string
+    name: string
+    type: 'jbot' | 'claudia' | 'kathy' | 'claire' | 'claude'
+    status: 'idle' | 'thinking' | 'active' | 'complete'
+    results?: any
+  }>
   ocrText: string
   tags: string[]
   confidence: number
   paitScore: number
   metadata: {
-    imageSize: string
-    processingTime: string
-    language: string
+    processingTime: number
+    agentsUsed: number
+    model: string
   }
 }
 

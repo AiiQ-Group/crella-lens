@@ -362,7 +362,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
               <div className="space-y-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mx-auto">
                   <Upload className="w-6 h-6 text-white" />
-                </div>
+            </div>
                 
                 <div>
                   <h3 className="text-lg font-medium text-white mb-1">
@@ -371,8 +371,8 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                   <p className="text-sm text-gray-400">
                     Any image: photos, screenshots, charts, documents
                   </p>
-                </div>
-                
+          </div>
+
                             <div className="text-xs text-gray-500 mb-4">
               JPG, PNG, WebP • Max 10MB
             </div>
@@ -382,16 +382,16 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
               <div className="flex items-center space-x-2 text-green-400">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 <span className="font-medium">🔒 End-to-End Encrypted</span>
-              </div>
+            </div>
               <div className="flex items-center space-x-2 text-blue-400">
                 <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                 <span className="font-medium">🛡️ Zero Data Storage</span>
-              </div>
+            </div>
             </div>
               </div>
+            </div>
             </div>
           </div>
-        </div>
 
         {/* Right Column - Secondary Upload & pAIt Guide */}
         <div className="space-y-6">
@@ -406,8 +406,8 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
               <div className="space-y-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-green-600 rounded-full flex items-center justify-center mx-auto">
                   <Upload className="w-6 h-6 text-white" />
-                </div>
-                
+        </div>
+
                 <div>
                   <h3 className="text-lg font-medium text-white mb-1">
                     Drop second image for comparison
@@ -415,11 +415,11 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                   <p className="text-sm text-gray-400">
                     Compare against your first image analysis
                   </p>
-                </div>
+            </div>
                 
                 <div className="text-xs text-gray-500 mb-4">
                   JPG, PNG, WebP • Max 10MB
-                </div>
+                    </div>
                 
                 {/* Security Indicator - Mirror */}
                 <div className="flex items-center justify-center space-x-4 text-xs">
@@ -430,11 +430,11 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                   <div className="flex items-center space-x-2 text-green-400">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                     <span className="font-medium">⚖️ Side-by-Side</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
+            </div>
+            </div>
+            </div>
 
           {/* pAIt Scoring Guide */}
           <div className="bg-gray-900/20 backdrop-blur-md rounded-xl border border-gray-700/30 p-6">
@@ -447,7 +447,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
               </h2>
               <div className="text-purple-400 transform transition-transform duration-300">
                 {showPAitGuide ? '▼' : '▶'}
-              </div>
+            </div>
             </div>
             
             <p className="text-sm text-gray-400 mt-2 mb-4">
@@ -478,7 +478,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                       <li>• Public visibility, social traction, and source credibility</li>
                       <li>• Metadata, compression, and authorship signals</li>
                     </ul>
-                  </div>
+            </div>
 
                   <div className="mb-4 p-3 bg-red-900/20 rounded border border-red-500/20">
                     <h5 className="text-sm font-semibold text-red-300 mb-2">⚠️ Important Notes:</h5>
@@ -496,8 +496,8 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                       Please use only circular, glass-style pAIt™ containers over dark backgrounds for official branding. 
                       Use red, yellow, green, and grey for consistent rating clarity.
                     </p>
-                  </div>
-                </div>
+          </div>
+        </div>
 
                 {/* Scoring System Grid */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
@@ -511,11 +511,11 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                         className="w-10 h-10 object-contain"
                       />
                       <h3 className="text-lg font-semibold text-gray-300">UNR</h3>
-                    </div>
+                  </div>
                     <p className="text-sm text-gray-400">
                       Indicates 'unrated' such as speculative submissions or invalid strategies
                     </p>
-                  </div>
+                </div>
 
                   {/* RED */}
                   <div className="p-4 bg-red-900/20 rounded-xl border border-red-500/30">
@@ -530,7 +530,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                     <p className="text-sm text-red-200">
                       Alerts dangerous, or invalid or unverified strategies
                     </p>
-                  </div>
+          </div>
 
                   {/* YELLOW */}
                   <div className="p-4 bg-yellow-900/20 rounded-xl border border-yellow-500/30">
@@ -545,7 +545,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                     <p className="text-sm text-yellow-200">
                       Implores scrutiny or additional attention
                     </p>
-                  </div>
+            </div>
 
                   {/* GREEN */}
                   <div className="p-4 bg-green-900/20 rounded-xl border border-green-500/30">
@@ -560,9 +560,9 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                     <p className="text-sm text-green-200">
                       Denotes a strong and market-proven strategy
                     </p>
-                  </div>
+            </div>
 
-                </div>
+            </div>
 
                 {/* Technical Implementation */}
                 <div className="p-4 bg-gray-900/20 rounded-lg border border-gray-500/20">
@@ -591,18 +591,18 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                   alt="Uploaded content"
                   className="w-full max-w-sm rounded-lg border border-gray-600"
                 />
-              </div>
+        </div>
               
               {/* Basic Info */}
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Filename:</span>
                   <span className="text-white">{uploadedFile.name}</span>
-                </div>
+      </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Size:</span>
                   <span className="text-white">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</span>
-                </div>
+    </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Type:</span>
                   <span className="text-white">{uploadedFile.type}</span>
@@ -614,8 +614,8 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                 <p className="text-xs text-green-300">
                   ✅ <strong>Auto-Analysis:</strong> Crella-Lens automatically analyzed this image for digital footprints, authorship, and content intelligence!
                 </p>
-              </div>
             </div>
+          </div>
           )}
 
           {/* Intelligent Flow Suggestions */}
@@ -647,7 +647,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                 <div className="text-left">
                   <p className="text-purple-300 text-sm font-medium">🔍 Analyzing digital footprints & authorship...</p>
                   <p className="text-gray-400 text-xs">Detecting source platform • AI vs human • Edit history • Metadata extraction</p>
-                </div>
+        </div>
               </div>
             </div>
           )}
@@ -658,25 +658,25 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
       {analysisResults.length > 0 && (
         <div className="mt-8 space-y-6">
           {/* Controls */}
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <button
-              onClick={() => setCompareMode(!compareMode)}
-              className={`px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2 ${
-                compareMode 
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white' 
-                  : 'bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-600'
-              }`}
-            >
-              <BarChart3 className="w-5 h-5" />
-              <span>{compareMode ? 'Exit Compare Mode' : 'Compare Analysis'}</span>
-            </button>
-            <button
-              onClick={() => setAnalysisResults([])}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-            >
-              Clear All
-            </button>
-          </div>
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <button
+            onClick={() => setCompareMode(!compareMode)}
+            className={`px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2 ${
+              compareMode 
+                ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                : 'bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-600'
+            }`}
+          >
+            <BarChart3 className="w-5 h-5" />
+            <span>{compareMode ? 'Exit Compare Mode' : 'Compare Analysis'}</span>
+          </button>
+          <button
+            onClick={() => setAnalysisResults([])}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+          >
+            Clear All
+          </button>
+        </div>
 
                           {/* Crella Lens Intelligence Core */}
           {analysisResults.map((result) => {
@@ -871,7 +871,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                             <div className="flex items-start justify-between mb-4">
                               <div className="text-2xl opacity-80">
                                 {point.icon}
-                              </div>
+            </div>
                               <div 
                                 className="w-2 h-2 rounded-full animate-pulse"
                                 style={{
@@ -906,7 +906,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                               </div>
                               <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">
                                 {point.title}
-                              </h3>
+              </h3>
                             </div>
 
                             {/* Color-Coded Confidence System */}
@@ -939,8 +939,8 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                                         'rgba(239, 68, 68, 0.6)'})`
                                   }}
                                 />
-                              </div>
-                            </div>
+            </div>
+          </div>
 
                             {/* Footer Metric */}
                             <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
@@ -962,7 +962,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                                   }}
                                 ></div>
                                 <span>Live</span>
-                              </div>
+        </div>
                             </div>
 
                             {/* Floating Badge for Index */}
@@ -993,7 +993,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                               }}
                             >
                               {point.id}
-                            </div>
+          </div>
 
                             {/* Hover Glow Effect */}
                             <div 
@@ -1022,7 +1022,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                                          '239, 68, 68'}, 0.05))`
                               }}
                             />
-                          </div>
+            </div>
 
                           {/* Expanded Details Modal */}
                           {isSelected && (
@@ -1096,7 +1096,7 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                                 >
                                   {point.value}
                                 </p>
-                              </div>
+          </div>
                               <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                                   {point.details}
@@ -1124,8 +1124,8 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                               >
                                 ✕
                               </button>
-                            </div>
-                          )}
+        </div>
+      )}
                         </div>
                       )
                     })}
@@ -1145,22 +1145,22 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                         +7 Points
                       </div>
                     </button>
-                  </div>
-                )}
+            </div>
+          )}
 
                 {/* Claire's Intelligent Suggestions Panel */}
                 {revealedCards >= 10 && (
                   <div className="max-w-4xl mx-auto mt-12 px-4 opacity-0 animate-fade-in" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
                     <div className="bg-gradient-to-r from-purple-900/15 to-blue-900/15 backdrop-blur-md rounded-2xl border border-purple-500/20 p-6">
-                      <div className="flex items-start space-x-4">
+            <div className="flex items-start space-x-4">
                         <img src="/claire.png" alt="Claire" className="w-12 h-12 rounded-full border-2 border-purple-400/50" />
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-2">
                             <h3 className="text-lg font-semibold text-white">Claire's Insights</h3>
                             <div className="px-2 py-1 bg-purple-500/30 rounded-full text-xs text-purple-300 font-medium">
                               AiiQ Concierge
-                            </div>
-                          </div>
+              </div>
+            </div>
                           <p className="text-purple-300 mb-4">
                             "Great analysis! I notice this has strong authenticity signals. Would you like me to run a deeper pAIt grade comparison against institutional benchmarks?"
                           </p>
@@ -1173,13 +1173,13 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                               <span>⚖️ Compare Against Trusted Dataset</span>
                               <span className="text-xs bg-white/20 px-2 py-1 rounded-full">Free</span>
                             </button>
-                          </div>
+          </div>
                           <div className="mt-3 text-xs text-gray-400">
                             💡 <strong>Pro Tip:</strong> pAIt scores help identify market manipulation vs authentic performance claims
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+          </div>
+                </div>
+                  </div>
+                </div>
                   </div>
                 )}
 
@@ -1197,13 +1197,13 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                           {Math.floor(Math.random() * 30) + 70}% confidence in human creation. Privacy-compliant analysis completed. 
                           Suitable for secure transmission and further analysis.
                         </p>
-                      </div>
+                </div>
                       
                       {/* Scanline Effect */}
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-400/5 to-transparent animate-pulse pointer-events-none" />
-                    </div>
-                  </div>
-                )}
+              </div>
+            </div>
+          )}
 
                 {/* Premium Upgrades */}
                 {revealedCards >= 10 && (
@@ -1213,16 +1213,16 @@ export default function VisualIntelligenceWorkflow({ userType }: VisualIntellige
                       <p className="text-gray-300 text-sm mb-4">Frame-by-frame magical analysis</p>
                       <button className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors">
                         $7.99/video
-                      </button>
+              </button>
                     </div>
                     <div className="bg-gradient-to-br from-green-900/15 to-teal-900/15 backdrop-blur-sm rounded-xl border border-green-500/20 p-6 text-center hover:scale-105 transition-transform">
                       <h3 className="text-lg font-semibold text-white mb-3">⚖️ Compare Images</h3>
                       <p className="text-gray-300 text-sm mb-4">Dual-orb comparison magic</p>
                       <button className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors">
                         $4.99/comparison
-                      </button>
-                    </div>
-                  </div>
+              </button>
+            </div>
+          </div>
                 )}
 
                 {/* Footer */}

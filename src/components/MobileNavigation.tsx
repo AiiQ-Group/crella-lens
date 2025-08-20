@@ -73,8 +73,17 @@ export function MobileNavigation({ appState, toggleDarkMode, onReturnToLanding }
             <Menu className="w-6 h-6" />
           </button>
 
-          {/* Page Title */}
-          <h1 className="font-semibold text-lg">{getCurrentPageTitle()}</h1>
+          {/* Crella Logo and Title */}
+          <div className="flex items-center space-x-2">
+            <img 
+              src="/logo-icon-main.png" 
+              alt="Crella" 
+              className="w-6 h-6"
+            />
+            <h1 className="font-semibold text-lg crella-font">
+              <span className="text-indigo-500">C</span>rella
+            </h1>
+          </div>
 
           {/* Token Counter */}
           <button
@@ -142,12 +151,16 @@ export function MobileNavigation({ appState, toggleDarkMode, onReturnToLanding }
             {/* Menu Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <img 
+                    src="/logo-icon-main.png" 
+                    alt="Crella" 
+                    className="w-6 h-6"
+                  />
                 </div>
                 <div>
-                  <h2 className="font-semibold text-lg">
-                    <span className="crella-font">Crella</span> Mobile
+                  <h2 className="font-semibold text-lg crella-font">
+                    <span className="text-indigo-500">C</span>rella Mobile
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {appState.user.type.toUpperCase()} {appState.user.isAuthenticated ? 'Member' : 'Access'}

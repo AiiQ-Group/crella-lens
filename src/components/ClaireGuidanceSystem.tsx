@@ -122,7 +122,7 @@ export function ClaireGuidanceSystem({
   }
 
   return (
-    <div className="fixed bottom-24 right-6 z-30 max-w-sm">
+    <div className="fixed bottom-32 right-6 z-30 max-w-sm">
       {/* Claire's Guidance Card */}
       <div className="bg-gradient-to-br from-blue-900/95 via-blue-800/95 to-purple-900/95 backdrop-blur-sm rounded-2xl border border-blue-500/30 shadow-2xl overflow-hidden">
         {/* Header with Claire's Avatar */}

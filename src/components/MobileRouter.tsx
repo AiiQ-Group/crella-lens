@@ -10,6 +10,7 @@ import CompareScreen from './screens/CompareScreen'
 import MobileDashboard from './screens/MobileDashboard'
 import LoginScreen from './screens/LoginScreen'
 import MobileNavigation from './MobileNavigation'
+import IntelligentAssistant from './IntelligentAssistant'
 import { AnalysisResult } from '../types'
 
 interface MobileRouterProps {
@@ -28,6 +29,14 @@ export interface AppState {
   currentAnalysis?: AnalysisResult
   vaultItems: any[]
   uploadedImages: File[]
+  waitingForIntent: boolean
+  selectedIntent: {
+    id: string
+    title: string
+    description: string
+    agents: string[]
+    reasoning: string
+  } | null
 }
 
 export function MobileRouter({ isDark, toggleDarkMode }: MobileRouterProps) {
@@ -40,7 +49,9 @@ export function MobileRouter({ isDark, toggleDarkMode }: MobileRouterProps) {
       dailyUsage: 0
     },
     vaultItems: [],
-    uploadedImages: []
+    uploadedImages: [],
+    waitingForIntent: false,
+    selectedIntent: null
   })
 
   const [showLanding, setShowLanding] = useState(true)
@@ -84,7 +95,7 @@ export function MobileRouter({ isDark, toggleDarkMode }: MobileRouterProps) {
 
   const pageTransition = {
     type: "tween" as const,
-    ease: "anticipate",
+    ease: "anticipate" as const,
     duration: 0.4
   }
 
@@ -243,6 +254,13 @@ export function MobileRouter({ isDark, toggleDarkMode }: MobileRouterProps) {
             />
           </Routes>
         </AnimatePresence>
+
+        {/* Claire - Floating on all pages */}
+        <IntelligentAssistant 
+          isAuthenticated={appState.user.isAuthenticated}
+          userType={appState.user.type === 'guest' ? null : appState.user.type}
+          analysisResult={appState.currentAnalysis}
+        />
       </div>
     </Router>
   )

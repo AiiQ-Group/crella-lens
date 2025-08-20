@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Moon, Sun, Eye, Shield, LogOut, Sparkles, Crown, TrendingUp, Home, X } from 'lucide-react'
+import { Moon, Sun, Eye, Shield, LogOut, Sparkles, Crown, TrendingUp, Home, X, Menu } from 'lucide-react'
 import VIPUploader, { generateTraderAnalysis } from './components/VIPUploader'
 import ImagePreview from './components/ImagePreview'
 import EnhancedAnalysisResults from './components/EnhancedAnalysisResults'
@@ -22,6 +22,8 @@ import { TokenMeter } from './components/TokenMeterSystem'
 import VIPUpgradeModal from './components/VIPUpgradeModal'
 import VisualAgentSelector from './components/VisualAgentSelector'
 import RealEstateVertical from './components/RealEstateVertical'
+import { IntentPromptModal } from './components/IntentPromptModal'
+import { IntelligencePlaybook } from './components/IntelligencePlaybook'
 // Using existing IntelligentAssistant (Ferrari Chat) instead
 import { AnalysisResult } from './types'
 
@@ -34,6 +36,14 @@ function App() {
   const [isVIPUpload, setIsVIPUpload] = useState(false)
   const [showVisualAnalysis, setShowVisualAnalysis] = useState(false)
   const [showVisualIntelligence, setShowVisualIntelligence] = useState(false)
+  
+  // Intent-based workflow state
+  const [showIntentModal, setShowIntentModal] = useState(false)
+  const [selectedIntent, setSelectedIntent] = useState<any>(null)
+  const [waitingForIntent, setWaitingForIntent] = useState(false)
+  
+  // Mobile menu state
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   
   // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -116,13 +126,33 @@ function App() {
     const reader = new FileReader()
     reader.onload = (e) => {
       setImagePreview(e.target?.result as string)
+      // Show intent modal after image loads
+      setShowIntentModal(true)
+      setWaitingForIntent(true)
     }
     reader.readAsDataURL(file)
     setAnalysisResult(null)
+    setSelectedIntent(null)
+  }
+
+  // Handle intent selection
+  const handleIntentSelected = (intent: any) => {
+    setSelectedIntent(intent)
+    setWaitingForIntent(false)
+    setShowIntentModal(false)
     
-    // Auto-analyze VIP uploads
-    if (isVIP) {
-      setTimeout(() => analyzeImage(), 1000)
+    // Auto-analyze after intent is selected
+    setTimeout(() => analyzeImage(), 1000)
+  }
+
+  // Handle intent modal close
+  const handleIntentModalClose = () => {
+    setShowIntentModal(false)
+    setWaitingForIntent(false)
+    // Reset if user cancels
+    if (!selectedIntent) {
+      setUploadedImage(null)
+      setImagePreview(null)
     }
   }
 
@@ -176,7 +206,7 @@ function App() {
           paitScore: 3.68,
           metadata: {
             imageSize: `${uploadedImage.size} bytes`,
-            processingTime: "1.2s",
+            processingTime: 1.2,
             language: "en"
           }
         })
@@ -189,8 +219,7 @@ function App() {
   return (
     <div className={`min-h-screen bg-transparent transition-colors ${isDark ? 'dark' : ''}`}>
       <div 
-        className="min-h-screen bg-transparent text-gray-900 dark:text-gray-100"
-
+        className="min-h-screen bg-transparent text-gray-900 dark:text-gray-100 flex flex-col"
       >
         {/* Header */}
         <header className="border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm relative">
@@ -258,28 +287,30 @@ function App() {
 
               {/* Action Controls */}
               <div className="flex items-center space-x-3">
-                {/* Visual Analysis Toggle */}
-                <button
-                  onClick={() => setShowVisualAnalysis(!showVisualAnalysis)}
-                  className={`p-2 rounded-lg transition-colors ${
-                    showVisualAnalysis 
-                      ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' 
-                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
-                  title="Visual pAIt Analysis"
-                >
-                  <Sparkles className="h-5 w-5" />
-                </button>
+                {/* Desktop: Show all icons */}
+                <div className="hidden md:flex items-center space-x-3">
+                  {/* Visual Analysis Toggle */}
+                  <button
+                    onClick={() => setShowVisualAnalysis(!showVisualAnalysis)}
+                    className={`p-2 rounded-lg transition-colors ${
+                      showVisualAnalysis 
+                        ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' 
+                        : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                    title="Visual pAIt Analysis"
+                  >
+                    <Sparkles className="h-5 w-5" />
+                  </button>
 
-                {/* Visual Intelligence Toggle */}
-                <button
-                  onClick={() => setShowVisualIntelligence(!showVisualIntelligence)}
-                  className={`p-2 rounded-lg transition-colors ${
-                    showVisualIntelligence 
-                      ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' 
-                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
-                  }`}
-                  title="Visual Intelligence Analysis"
+                  {/* Visual Intelligence Toggle */}
+                  <button
+                    onClick={() => setShowVisualIntelligence(!showVisualIntelligence)}
+                    className={`p-2 rounded-lg transition-colors ${
+                      showVisualIntelligence 
+                        ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' 
+                        : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                    title="Visual Intelligence Analysis"
                 >
                   <Eye className="h-5 w-5" />
                 </button>
@@ -362,21 +393,182 @@ function App() {
                 >
                   <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover:animate-pulse" />
                 </button>
+                </div>
+
+                {/* Mobile: Hamburger Menu */}
+                <div className="md:hidden relative">
+                  <button
+                    onClick={() => setShowMobileMenu(!showMobileMenu)}
+                    className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    title="Menu"
+                  >
+                    <Menu className="h-5 w-5" />
+                  </button>
+
+                  {/* Mobile Dropdown */}
+                  {showMobileMenu && (
+                    <div className="absolute right-0 top-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-2 min-w-[200px] z-50">
+                      <div className="grid grid-cols-3 gap-2 mb-3">
+                        <button
+                          onClick={() => {
+                            setShowVisualAnalysis(!showVisualAnalysis)
+                            setShowMobileMenu(false)
+                          }}
+                          className={`p-3 rounded-lg transition-colors text-center ${
+                            showVisualAnalysis 
+                              ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400' 
+                              : 'bg-gray-100 dark:bg-gray-700'
+                          }`}
+                        >
+                          <Sparkles className="h-5 w-5 mx-auto mb-1" />
+                          <div className="text-xs">Analysis</div>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setShowVisualIntelligence(!showVisualIntelligence)
+                            setShowMobileMenu(false)
+                          }}
+                          className={`p-3 rounded-lg transition-colors text-center ${
+                            showVisualIntelligence 
+                              ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' 
+                              : 'bg-gray-100 dark:bg-gray-700'
+                          }`}
+                        >
+                          <Eye className="h-5 w-5 mx-auto mb-1" />
+                          <div className="text-xs">Intelligence</div>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setShowClaireChat(!showClaireChat)
+                            setShowMobileMenu(false)
+                          }}
+                          className={`p-3 rounded-lg transition-colors text-center relative ${
+                            showClaireChat 
+                              ? 'bg-purple-500/20 border border-purple-500/30' 
+                              : 'bg-gray-100 dark:bg-gray-700'
+                          }`}
+                        >
+                          <Sparkles className="h-5 w-5 mx-auto mb-1 text-purple-600 dark:text-purple-400" />
+                          <div className="text-xs">Claire</div>
+                          {showClaireChat && (
+                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full"></div>
+                          )}
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          onClick={() => {
+                            toggleDarkMode()
+                            setShowMobileMenu(false)
+                          }}
+                          className="p-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-center"
+                        >
+                          {isDark ? (
+                            <Sun className="h-5 w-5 mx-auto mb-1 text-yellow-500" />
+                          ) : (
+                            <Moon className="h-5 w-5 mx-auto mb-1 text-gray-600" />
+                          )}
+                          <div className="text-xs">{isDark ? 'Light' : 'Dark'}</div>
+                        </button>
+
+                        {userType === null && (
+                          <button
+                            onClick={() => {
+                              setShowVIPUpgrade(true)
+                              setShowMobileMenu(false)
+                            }}
+                            className="p-3 rounded-lg bg-gradient-to-r from-yellow-500/20 to-orange-600/20 border border-yellow-500/30 text-center"
+                          >
+                            <Crown className="h-5 w-5 mx-auto mb-1 text-yellow-400" />
+                            <div className="text-xs">VIP</div>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16 w-full">
           {showVisualAnalysis ? (
             <VisualPAItAnalysis />
-          ) : (
-            /* Default to Visual Intelligence Workflow */
+          ) : showVisualIntelligence ? (
             <VisualIntelligenceWorkflow 
               isAuthenticated={isAuthenticated}
               userType={userType}
             />
+          ) : (
+            /* Default Upload/Compare Layout */
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Upload Image Section - Always visible */}
+              <div className="space-y-6">
+                <VIPUploader
+                  isAuthenticated={isAuthenticated}
+                  userType={userType}
+                  onImageUpload={handleImageUpload}
+                  onAnalysisComplete={setAnalysisResult}
+                />
+                
+                {/* Show results below upload on mobile */}
+                {analysisResult && (
+                  <div className="lg:hidden">
+                    <EnhancedAnalysisResults
+                      result={analysisResult}
+                      userType={userType}
+                      onSaveToVault={handleSaveToVault}
+                      onDiscardAnalysis={handleDiscardAnalysis}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Compare Image Section - Desktop only */}
+              <div className="hidden lg:block space-y-6">
+                {!analysisResult ? (
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 p-8 text-center">
+                    <h2 className="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-300 flex items-center justify-center">
+                      📊 Compare Image
+                    </h2>
+                    <div className="space-y-4">
+                      <div className="w-16 h-16 mx-auto bg-teal-100 dark:bg-teal-900/30 rounded-full flex items-center justify-center">
+                        <svg className="w-8 h-8 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                      </div>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        Drop second image for comparison
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-500">
+                        Compare against your first image analysis
+                      </p>
+                      <div className="flex items-center justify-center space-x-4 text-sm">
+                        <span className="flex items-center text-orange-600 dark:text-orange-400">
+                          🔒 Encrypted Compare
+                        </span>
+                        <span className="flex items-center text-green-600 dark:text-green-400">
+                          📊 Side-by-Side
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* Show results on desktop */
+                  <EnhancedAnalysisResults
+                    result={analysisResult}
+                    userType={userType}
+                    onSaveToVault={handleSaveToVault}
+                    onDiscardAnalysis={handleDiscardAnalysis}
+                  />
+                )}
+              </div>
+            </div>
           )}
         </main>
 
@@ -523,6 +715,48 @@ function App() {
           </div>
         )}
 
+        {/* Intent Prompt Modal */}
+        <IntentPromptModal
+          isOpen={showIntentModal}
+          onClose={handleIntentModalClose}
+          uploadedImage={imagePreview ? {
+            url: imagePreview,
+            name: uploadedImage?.name || 'uploaded-image'
+          } : undefined}
+          onIntentSelected={handleIntentSelected}
+        />
+
+        {/* Intelligence Playbook - Show after analysis */}
+        {analysisResult && selectedIntent && (
+          <div className="mt-8">
+            <IntelligencePlaybook 
+              result={{
+                id: Date.now().toString(),
+                timestamp: new Date(),
+                images: uploadedImage ? [uploadedImage] : [],
+                agents: [
+                  {
+                    id: 'claire',
+                    name: 'Claire',
+                    type: 'claire' as const,
+                    status: 'complete' as const,
+                    results: { summary: 'AI Concierge coordination complete' }
+                  }
+                ],
+                paitScore: analysisResult.paitScore,
+                confidence: analysisResult.confidence,
+                ocrText: analysisResult.ocrText,
+                tags: analysisResult.tags,
+                metadata: {
+                  processingTime: analysisResult.metadata.processingTime,
+                  agentsUsed: 1,
+                  model: 'crella-cathedral-v1'
+                }
+              }}
+            />
+          </div>
+        )}
+
         {/* VIP Upgrade Modal */}
         <VIPUpgradeModal
           isOpen={showVIPUpgrade}
@@ -595,3 +829,4 @@ function App() {
 }
 
 export default App
+

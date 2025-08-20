@@ -17,6 +17,8 @@ import {
 } from 'lucide-react'
 import { AppState } from '../MobileRouter'
 import { PAItScoreOrb } from '../PAItScoreOrb'
+import { IntelligencePlaybook } from '../IntelligencePlaybook'
+import { AnalysisResult } from '../../types'
 
 interface ResultsScreenProps {
   appState: AppState
@@ -246,6 +248,45 @@ export function ResultsScreen({ appState, updateAppState }: ResultsScreenProps) 
             </motion.div>
           ))}
         </div>
+
+        {/* Intelligence Playbook */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+          className="mb-6"
+        >
+          <IntelligencePlaybook 
+            result={{
+              id: Date.now().toString(),
+              timestamp: new Date(),
+              images: appState.uploadedImages || [],
+              agents: agentResults.map(agent => ({
+                id: agent.id,
+                name: agent.name,
+                type: agent.id as 'jbot' | 'claudia' | 'kathy',
+                status: 'complete' as const,
+                results: {
+                  summary: agent.summary,
+                  confidence: agent.confidence,
+                  score: agent.score,
+                  details: agent.details,
+                  recommendations: agent.recommendations,
+                  executionTime: agent.executionTime
+                }
+              })),
+              paitScore: overallScore,
+              confidence: overallConfidence,
+              ocrText: 'Sample extracted text',
+              tags: ['analysis', 'multi-agent'],
+              metadata: {
+                processingTime: agentResults.reduce((sum, r) => sum + r.executionTime, 0),
+                agentsUsed: agentResults.length,
+                model: 'crella-mobile-v1'
+              }
+            }}
+          />
+        </motion.div>
 
         {/* Action Buttons */}
         <div className="space-y-3">
